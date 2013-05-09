@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Authorization" >
+
+        <EditTextPreference
+            android:dialogTitle="Enter your API Key"
+            android:key="API_KEY"
+            android:summary="Found in MY ACCOUNT/ACCOUNT DETAILS"
+            android:title="Tap here to enter your API Key" />
+    </PreferenceCategory>
+    
+</PreferenceScreen>
