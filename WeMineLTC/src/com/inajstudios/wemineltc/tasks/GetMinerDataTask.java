@@ -14,12 +14,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.inajstudios.wemineltc.MainActivity;
@@ -117,12 +113,12 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 			TextView mPayoutHistory = (TextView) mActivity.findViewById(R.id.tv_payout_history);
 			TextView mRoundShares = (TextView) mActivity.findViewById(R.id.tv_round_shares);
 
-			mUsername.setText("username: " + mMiner.username);
-			mRewards.setText(String.valueOf("confirmed_rewards: " + mMiner.confirmed_rewards));
-			mRoundEstimate.setText(String.valueOf("round_estimate: " + mMiner.round_estimate));
-			mHashrate.setText(String.valueOf("total_hashrate: " + mMiner.total_hashrate));
-			mPayoutHistory.setText(String.valueOf("payout_history: " + mMiner.payout_history));
-			mRoundShares.setText(String.valueOf("round_shares: " + mMiner.round_shares));
+			mUsername.setText(mMiner.username);
+			mRewards.setText(String.valueOf(mMiner.confirmed_rewards) + " LTC");
+			mRoundEstimate.setText(String.valueOf(mMiner.round_estimate) + " LTC");
+			mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");
+			mPayoutHistory.setText(String.valueOf(mMiner.payout_history) + " LTC");
+			mRoundShares.setText(String.valueOf(mMiner.round_shares));
 
 			mListener.onRefresh();
 

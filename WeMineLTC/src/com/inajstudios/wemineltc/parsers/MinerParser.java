@@ -1,6 +1,7 @@
 package com.inajstudios.wemineltc.parsers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,8 +38,10 @@ public class MinerParser {
 		while (workerNames.hasNext()) {
 			String workerName = workerNames.next();
 			Worker worker = parseWorker(workerName, json.getJSONObject(workerName));
+			Log.w("WEMINELTC", "Worker name added: " + worker.name);
 			result.add(worker);
 		}
+		Collections.reverse(result);
 		return result;
 	}
 

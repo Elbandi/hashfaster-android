@@ -1,63 +1,125 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/tv_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ERROR: Check Internet!"
-        android:textColor="#FF0000"
-        android:textSize="16sp"
-        android:visibility="gone" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/workers" >
+
+        <LinearLayout
+            android:id="@+id/information_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin" >
+
+            <TextView
+                android:id="@+id/tv_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ERROR: Check Internet!"
+                android:textColor="#FF0000"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <TextView
+                style="@style/ViewPagerHeaderSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/ViewPagerHeaderSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirmed Rewards" />
+
+            <TextView
+                android:id="@+id/tv_confirmed_rewards"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/ViewPagerHeaderSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Round Estimate" />
+
+            <TextView
+                android:id="@+id/tv_round_estimate"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/ViewPagerHeaderSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Hashrate" />
+
+            <TextView
+                android:id="@+id/tv_total_hashrate"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/ViewPagerHeaderSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payout History" />
+
+            <TextView
+                android:id="@+id/tv_payout_history"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/ViewPagerHeaderSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Round Shares" />
+
+            <TextView
+                android:id="@+id/tv_round_shares"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
-        android:id="@+id/information_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/workers"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/tv_username"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="Workers (swipe to see more!)"
+            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_confirmed_rewards"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_workers"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_round_estimate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_total_hashrate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_payout_history"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_round_shares"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true" />
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_workers"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#343434" />
-
-</LinearLayout>
+</RelativeLayout>

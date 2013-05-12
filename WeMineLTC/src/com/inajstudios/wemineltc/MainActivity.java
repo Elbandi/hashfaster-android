@@ -38,7 +38,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		mAdapter = new MinerViewPagerAdapter(this);
 		vpWorkers.setAdapter(mAdapter);
-		
+
 		setUpListeners();
 		updateView();
 	}

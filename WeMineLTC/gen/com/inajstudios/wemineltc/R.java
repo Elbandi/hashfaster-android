@@ -685,10 +685,35 @@ containing a value of this type.
         public static final int abs__bright_foreground_inverse_holo_dark=0x7f070006;
         public static final int abs__bright_foreground_inverse_holo_light=0x7f070007;
         public static final int abs__holo_blue_light=0x7f070008;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f070009;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f07000a;
-        public static final int abs__primary_text_holo_dark=0x7f07000b;
-        public static final int abs__primary_text_holo_light=0x7f07000c;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f07001e;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f07001f;
+        public static final int abs__primary_text_holo_dark=0x7f070020;
+        public static final int abs__primary_text_holo_light=0x7f070021;
+        public static final int aqua=0x7f070013;
+        /**  Extra Colours 
+         */
+        public static final int black=0x7f070009;
+        public static final int blue=0x7f070017;
+        public static final int fuchsia=0x7f07000c;
+        public static final int gray=0x7f07000f;
+        public static final int green=0x7f070016;
+        public static final int lime=0x7f070014;
+        public static final int maroon=0x7f070012;
+        public static final int navy=0x7f070018;
+        public static final int olive=0x7f070010;
+        public static final int purple=0x7f070011;
+        public static final int red=0x7f07000d;
+        public static final int silver=0x7f07000e;
+        public static final int teal=0x7f070015;
+        /**  wemineltc 
+         */
+        public static final int viewpager_background=0x7f070019;
+        public static final int viewpager_text=0x7f07001b;
+        public static final int viewpager_text_light=0x7f07001a;
+        public static final int white=0x7f07000a;
+        public static final int worker_alive=0x7f07001c;
+        public static final int worker_dead=0x7f07001d;
+        public static final int yellow=0x7f07000b;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -812,6 +837,8 @@ containing a value of this type.
          */
         public static final int activity_horizontal_margin=0x7f080011;
         public static final int activity_vertical_margin=0x7f080012;
+        public static final int viewpager_margin=0x7f080013;
+        public static final int viewpager_margin_fix=0x7f080014;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
@@ -931,6 +958,7 @@ containing a value of this type.
         public static final int ic_launcher_settings=0x7f020072;
         public static final int ic_refresh=0x7f020073;
         public static final int launcher_icon=0x7f020074;
+        public static final int viewpager_workers=0x7f020075;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050022;
@@ -973,12 +1001,12 @@ containing a value of this type.
         public static final int abs__title=0x7f05001b;
         public static final int abs__titleDivider=0x7f05001c;
         public static final int abs__up=0x7f05000b;
-        public static final int action_settings=0x7f050047;
-        public static final int btn_save=0x7f050042;
+        public static final int action_settings=0x7f050048;
+        public static final int btn_save=0x7f050043;
         public static final int btn_save_address=0x7f050036;
         public static final int disableHome=0x7f050009;
         public static final int edit_query=0x7f050027;
-        public static final int et_api=0x7f050041;
+        public static final int et_api=0x7f050042;
         public static final int homeAsUp=0x7f050006;
         public static final int information_container=0x7f050038;
         public static final int listMode=0x7f050002;
@@ -988,22 +1016,23 @@ containing a value of this type.
         public static final int showTitle=0x7f050007;
         public static final int tabMode=0x7f050003;
         public static final int tv_address=0x7f050035;
-        public static final int tv_confirmed_rewards=0x7f05003a;
-        public static final int tv_error=0x7f050037;
-        public static final int tv_howto=0x7f050040;
+        public static final int tv_confirmed_rewards=0x7f05003b;
+        public static final int tv_error=0x7f050039;
+        public static final int tv_howto=0x7f050041;
         public static final int tv_im_a_whore=0x7f050034;
-        public static final int tv_payout_history=0x7f05003d;
-        public static final int tv_round_estimate=0x7f05003b;
-        public static final int tv_round_shares=0x7f05003e;
+        public static final int tv_payout_history=0x7f05003e;
+        public static final int tv_round_estimate=0x7f05003c;
+        public static final int tv_round_shares=0x7f05003f;
         public static final int tv_title=0x7f050033;
-        public static final int tv_total_hashrate=0x7f05003c;
-        public static final int tv_username=0x7f050039;
-        public static final int tv_worker_alive=0x7f050044;
-        public static final int tv_worker_hashrate=0x7f050045;
-        public static final int tv_worker_lastshare_timestamp=0x7f050046;
-        public static final int tv_worker_name=0x7f050043;
+        public static final int tv_total_hashrate=0x7f05003d;
+        public static final int tv_username=0x7f05003a;
+        public static final int tv_worker_alive=0x7f050045;
+        public static final int tv_worker_hashrate=0x7f050046;
+        public static final int tv_worker_lastshare_timestamp=0x7f050047;
+        public static final int tv_worker_name=0x7f050044;
         public static final int useLogo=0x7f050004;
-        public static final int vp_workers=0x7f05003f;
+        public static final int vp_workers=0x7f050040;
+        public static final int workers=0x7f050037;
         public static final int wrap_content=0x7f050000;
     }
     public static final class integer {
@@ -1122,6 +1151,7 @@ containing a value of this type.
         public static final int AppTheme=0x7f0b005a;
         public static final int DialogWindowTitle_Sherlock=0x7f0b0036;
         public static final int DialogWindowTitle_Sherlock_Light=0x7f0b0037;
+        public static final int MainText=0x7f0b005b;
         public static final int Sherlock___TextAppearance_Small=0x7f0b004a;
         public static final int Sherlock___Theme=0x7f0b004e;
         public static final int Sherlock___Theme_DarkActionBar=0x7f0b0050;
@@ -1162,6 +1192,8 @@ containing a value of this type.
         public static final int Theme_Sherlock_Light_Dialog=0x7f0b0058;
         public static final int Theme_Sherlock_Light_NoActionBar=0x7f0b0056;
         public static final int Theme_Sherlock_NoActionBar=0x7f0b0055;
+        public static final int ViewPagerHeaderSmall=0x7f0b005c;
+        public static final int ViewPagerText=0x7f0b005d;
         public static final int Widget=0x7f0b0000;
         public static final int Widget_Sherlock_ActionBar=0x7f0b0002;
         public static final int Widget_Sherlock_ActionBar_Solid=0x7f0b0003;

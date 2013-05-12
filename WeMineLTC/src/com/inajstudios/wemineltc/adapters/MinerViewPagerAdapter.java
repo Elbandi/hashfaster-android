@@ -10,24 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.inajstudios.wemineltc.MainActivity;
 import com.inajstudios.wemineltc.R;
 import com.inajstudios.wemineltc.managers.MinerManager;
-import com.inajstudios.wemineltc.models.Miner;
 import com.inajstudios.wemineltc.models.Worker;
-import com.inajstudios.wemineltc.tasks.GetMinerDataTask;
 
 public class MinerViewPagerAdapter extends PagerAdapter {
 
 	Context mContext;
+
 	public MinerViewPagerAdapter(Context context) {
 		this.mContext = context;
-		
+
 	}
 
 	@Override
 	public int getCount() {
-//		Log.w("WEMINELTC", "Size: " + MinerManager.getInstance().miner.workers.size());
+		// Log.w("WEMINELTC", "Size: " +
+		// MinerManager.getInstance().miner.workers.size());
 		return MinerManager.getInstance().miner.workers.size();
 	}
 
@@ -48,26 +47,44 @@ public class MinerViewPagerAdapter extends PagerAdapter {
 		TextView mHashRate = (TextView) view.findViewById(R.id.tv_worker_hashrate);
 		TextView mTimestamp = (TextView) view.findViewById(R.id.tv_worker_lastshare_timestamp);
 
-		Log.w("WEMINELTC", "NAME: "  + worker.name);
-		mName.setText("Worker: " + worker.name);
-		mAlive.setText("Alive: " + worker.alive);
-		mHashRate.setText("Hashrate: " + worker.hashrate);
-		if (mTimestamp != null)
-			mTimestamp.setText("Last Share: " + DateFormat.format("dd/MM/yyyy hh:mm:ssaa", worker.last_share_timestamp * 1000L));
+		mName.setText(worker.name);
+
+		if (worker.alive == 1) {
+			String aliveText = "Alive";
+			mAlive.setTextColor(mContext.getResources().getColor(R.color.worker_alive));
+			mAlive.setText(aliveText);
+		} else {
+			String aliveText = "Dead";
+			mAlive.setTextColor(mContext.getResources().getColor(R.color.worker_dead));
+			mAlive.setText(aliveText);
+		}
+
+		mHashRate.setText(worker.hashrate + " Kh/s");
+
+		if (worker.last_share_timestamp == 0) {
+			mTimestamp.setText("Undefined");
+		} else {
+			mTimestamp.setText(DateFormat.format("dd/MM/yyyy hh:mm:ssaa", worker.last_share_timestamp * 1000L));
+
+		}
 
 		container.addView(view);
 		return view;
 	}
 
-	
 	@Override
 	public int getItemPosition(Object object) {
 		return POSITION_NONE;
 	}
-	
+
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		// TODO Auto-generated method stub
 		((ViewPager) container).removeView((View) object);
+	}
+
+	@Override
+	public float getPageWidth(int position) {
+		return (0.4f);
 	}
 }
