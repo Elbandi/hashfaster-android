@@ -11,7 +11,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.inajstudios.wemineltc.adapters.MinerViewPagerAdapter;
-import com.inajstudios.wemineltc.managers.MinerManager;
+import com.inajstudios.wemineltc.interfaces.RefreshListener;
 import com.inajstudios.wemineltc.managers.PrefManager;
 import com.inajstudios.wemineltc.tasks.GetMinerDataTask;
 
@@ -25,20 +25,22 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	MinerViewPagerAdapter mAdapter;
 
+	RefreshListener refreshListener;
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		mAdapter = new MinerViewPagerAdapter(getApplicationContext());
 
 		vpWorkers = (ViewPager) findViewById(R.id.vp_workers);
-		vpWorkers.setAdapter(mAdapter);
-
 		mError = (TextView) findViewById(R.id.tv_error);
 
-		new GetMinerDataTask(this, mAdapter).execute();
-
+		mAdapter = new MinerViewPagerAdapter(this);
+		vpWorkers.setAdapter(mAdapter);
+		
+		setUpListeners();
+		updateView();
 	}
 
 	@Override
@@ -68,8 +70,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		// This uses the imported MenuItem from ActionBarSherlock
 
 		if (item.getTitle() == "Refresh")
-			new GetMinerDataTask(this, mAdapter).execute();
-
+			updateView();
 		if (item.getTitle() == "Settings") {
 			Intent intent = new Intent(this, SettingsActivity.class);
 			startActivity(intent);
@@ -80,6 +81,26 @@ public class MainActivity extends SherlockFragmentActivity {
 			startActivity(intent);
 		}
 		return true;
+	}
+
+	public void updateView() {
+		new GetMinerDataTask(this, refreshListener).execute();
+	}
+
+	/*
+	 * Setting up listeners
+	 */
+	private void setUpListeners() {
+		refreshListener = new RefreshListener() {
+
+			@Override
+			public void onRefresh() {
+				// TODO Auto-generated method stub
+				mAdapter.notifyDataSetChanged();
+
+			}
+		};
+
 	}
 
 }

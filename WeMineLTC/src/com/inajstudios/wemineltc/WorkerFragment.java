@@ -7,20 +7,27 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.inajstudios.wemineltc.models.Worker;
 
 public class WorkerFragment extends SherlockFragment {
 	
 	
-//	View view = inflater.inflate(R.layout.worker_item, container, false);
+	
 	TextView mWorkerName;// = (TextView) view.findViewById(R.id.tv_worker_name);
 	TextView mAlive;// = (TextView) view.findViewById(R.id.tv_worker_alive);
 	TextView mHashrate; //= (TextView) view.findViewById(R.id.tv_worker_hashrate);
 	TextView mLastTimestamp;// = (TextView) view.findViewById(R.id.tv_worker_lastshare_timestamp);
 	
+	Worker mWorker;
+	
+	public WorkerFragment newInstance(Worker worker) {
+		mWorker = new Worker();
+		mWorker = worker;
+		return null;
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {

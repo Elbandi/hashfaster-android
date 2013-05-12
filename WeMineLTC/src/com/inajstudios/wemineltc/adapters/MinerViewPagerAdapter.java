@@ -2,6 +2,7 @@ package com.inajstudios.wemineltc.adapters;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,14 +20,14 @@ import com.inajstudios.wemineltc.tasks.GetMinerDataTask;
 public class MinerViewPagerAdapter extends PagerAdapter {
 
 	Context mContext;
-
 	public MinerViewPagerAdapter(Context context) {
 		this.mContext = context;
+		
 	}
 
 	@Override
 	public int getCount() {
-		Log.w("WEMINELTC", "Size: " + MinerManager.getInstance().miner.workers.size());
+//		Log.w("WEMINELTC", "Size: " + MinerManager.getInstance().miner.workers.size());
 		return MinerManager.getInstance().miner.workers.size();
 	}
 
@@ -37,9 +38,8 @@ public class MinerViewPagerAdapter extends PagerAdapter {
 
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
-		Miner mMiner = MinerManager.getInstance().miner;
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		Worker worker = mMiner.workers.get(position);
+		Worker worker = MinerManager.getInstance().miner.workers.get(position);
 		View view = null;
 
 		view = inflater.inflate(R.layout.worker_item, null);
@@ -48,6 +48,7 @@ public class MinerViewPagerAdapter extends PagerAdapter {
 		TextView mHashRate = (TextView) view.findViewById(R.id.tv_worker_hashrate);
 		TextView mTimestamp = (TextView) view.findViewById(R.id.tv_worker_lastshare_timestamp);
 
+		Log.w("WEMINELTC", "NAME: "  + worker.name);
 		mName.setText("Worker: " + worker.name);
 		mAlive.setText("Alive: " + worker.alive);
 		mHashRate.setText("Hashrate: " + worker.hashrate);
@@ -58,14 +59,15 @@ public class MinerViewPagerAdapter extends PagerAdapter {
 		return view;
 	}
 
+	
 	@Override
 	public int getItemPosition(Object object) {
 		return POSITION_NONE;
 	}
 	
 	@Override
-	public void destroyItem(View container, int position, Object object) {
+	public void destroyItem(ViewGroup container, int position, Object object) {
 		// TODO Auto-generated method stub
-		
+		((ViewPager) container).removeView((View) object);
 	}
 }

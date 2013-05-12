@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.inajstudios.wemineltc.MainActivity;
 import com.inajstudios.wemineltc.R;
 import com.inajstudios.wemineltc.adapters.MinerViewPagerAdapter;
+import com.inajstudios.wemineltc.interfaces.RefreshListener;
 import com.inajstudios.wemineltc.managers.MinerManager;
 import com.inajstudios.wemineltc.managers.PrefManager;
 import com.inajstudios.wemineltc.models.Miner;
@@ -41,15 +42,16 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 
 	InputStream is = null;
 	MainActivity mActivity;
+	RefreshListener mListener;
 	MinerViewPagerAdapter mAdapter;
 	TextView mError;
 
 	public GetMinerDataTask() {
 	}
 
-	public GetMinerDataTask(MainActivity mainActivity, MinerViewPagerAdapter adapter) {
+	public GetMinerDataTask(MainActivity mainActivity, RefreshListener listener) {
 		mActivity = mainActivity;
-		mAdapter = adapter;
+		mListener = listener;
 		mError = (TextView) mActivity.findViewById(R.id.tv_error);
 	}
 
@@ -102,20 +104,11 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
 		try {
-			MinerManager.getInstance().setMiner(new MinerParser().parseMiner(result));
-		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		Miner mMiner = new Miner();
-		mMiner = MinerManager.getInstance().miner;
-		try {
-			if (result == null || result.equals(new JSONObject())) {
-				setError("Error: Invalid API Key!");
-				return;
-			}
-
-			mMiner = MinerParser.parseMiner(result);
+			
+			new MinerParser();
+			MinerManager.getInstance().setMiner(MinerParser.parseMiner(result));
+			Miner mMiner = new Miner();
+			mMiner = MinerManager.getInstance().miner;
 
 			TextView mUsername = (TextView) mActivity.findViewById(R.id.tv_username);
 			TextView mRewards = (TextView) mActivity.findViewById(R.id.tv_confirmed_rewards);
@@ -131,7 +124,7 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 			mPayoutHistory.setText(String.valueOf("payout_history: " + mMiner.payout_history));
 			mRoundShares.setText(String.valueOf("round_shares: " + mMiner.round_shares));
 
-			mAdapter.notifyDataSetChanged();
+			mListener.onRefresh();
 
 		} catch (JSONException e) {
 			setError("Error: Invalid API Key!");

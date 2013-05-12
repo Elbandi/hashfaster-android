@@ -1,6 +1,10 @@
 package com.inajstudios.wemineltc.managers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.inajstudios.wemineltc.models.Miner;
+import com.inajstudios.wemineltc.models.Worker;
 
 
 public class MinerManager {
@@ -21,6 +25,18 @@ public class MinerManager {
 
 	public Miner getMiner() {
 		return miner;
+	}
+	
+	public List<Worker> getWorkers()
+	{
+		ArrayList<Worker> result = new ArrayList<Worker>();
+		
+		for (Worker worker : miner.workers)
+		{
+			result.add(worker);
+		}
+		
+		return result;
 	}
 	
 }
