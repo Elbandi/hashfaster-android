@@ -314,7 +314,8 @@ int id abs__textButton 0x7f050013
 int id abs__title 0x7f05001b
 int id abs__titleDivider 0x7f05001c
 int id abs__up 0x7f05000b
-int id action_settings 0x7f050048
+int id action_settings 0x7f050049
+int id btn_qr_scan 0x7f050044
 int id btn_save 0x7f050043
 int id btn_save_address 0x7f050036
 int id disableHome 0x7f050009
@@ -339,10 +340,10 @@ int id tv_round_shares 0x7f05003f
 int id tv_title 0x7f050033
 int id tv_total_hashrate 0x7f05003d
 int id tv_username 0x7f05003a
-int id tv_worker_alive 0x7f050045
-int id tv_worker_hashrate 0x7f050046
-int id tv_worker_lastshare_timestamp 0x7f050047
-int id tv_worker_name 0x7f050044
+int id tv_worker_alive 0x7f050046
+int id tv_worker_hashrate 0x7f050047
+int id tv_worker_lastshare_timestamp 0x7f050048
+int id tv_worker_name 0x7f050045
 int id useLogo 0x7f050004
 int id vp_workers 0x7f050040
 int id workers 0x7f050037

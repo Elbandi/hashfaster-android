@@ -19,7 +19,7 @@
         android:id="@+id/tv_howto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Found in MY ACCOUNT/ACCOUNT DETAILS"
+        android:text="Found in MY ACCOUNT/ACCOUNT DETAILS\nDON'T FORGET TO SAVE!"
         android:textColor="#AAAAAA" />
 
     <EditText
@@ -34,5 +34,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save" />
+    
+    <Button
+        android:id="@+id/btn_qr_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QR Scan" />
+    <TextView
+        android:id="@+id/tv_howto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use your PC and go to:\nhttp://wemineltc.com/accountdetails\nselect 'generate QR code' to scan API key"
+        android:textColor="#AAAAAA" />
 
 </LinearLayout>

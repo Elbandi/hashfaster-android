@@ -1,5 +1,6 @@
 package com.inajstudios.wemineltc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,10 +11,12 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.inajstudios.wemineltc.managers.PrefManager;
+import com.inajstudios.wemineltc.qr.IntentIntegrator;
+import com.inajstudios.wemineltc.qr.IntentResult;
 
 public class SettingsActivity extends SherlockActivity {
 
-	Button mSave;
+	Button mSave, mQRScan;
 	EditText mAPIKey;
 
 	@Override
@@ -22,6 +25,7 @@ public class SettingsActivity extends SherlockActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_settings);
 
+		mQRScan = (Button) findViewById(R.id.btn_qr_scan);
 		mSave = (Button) findViewById(R.id.btn_save);
 		mAPIKey = (EditText) findViewById(R.id.et_api);
 
@@ -36,6 +40,15 @@ public class SettingsActivity extends SherlockActivity {
 				Toast.makeText(getApplicationContext(), "Saved your API key", Toast.LENGTH_LONG).show();
 			}
 		});
+
+		mQRScan.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				IntentIntegrator integrator = new IntentIntegrator(SettingsActivity.this);
+				integrator.initiateScan();
+			}
+		});
 	}
 
 	@Override
@@ -45,5 +58,13 @@ public class SettingsActivity extends SherlockActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+		if (scanResult != null) {
+			mAPIKey.setText(scanResult.getContents());
+		}
 	}
 }

@@ -1001,7 +1001,8 @@ containing a value of this type.
         public static final int abs__title=0x7f05001b;
         public static final int abs__titleDivider=0x7f05001c;
         public static final int abs__up=0x7f05000b;
-        public static final int action_settings=0x7f050048;
+        public static final int action_settings=0x7f050049;
+        public static final int btn_qr_scan=0x7f050044;
         public static final int btn_save=0x7f050043;
         public static final int btn_save_address=0x7f050036;
         public static final int disableHome=0x7f050009;
@@ -1026,10 +1027,10 @@ containing a value of this type.
         public static final int tv_title=0x7f050033;
         public static final int tv_total_hashrate=0x7f05003d;
         public static final int tv_username=0x7f05003a;
-        public static final int tv_worker_alive=0x7f050045;
-        public static final int tv_worker_hashrate=0x7f050046;
-        public static final int tv_worker_lastshare_timestamp=0x7f050047;
-        public static final int tv_worker_name=0x7f050044;
+        public static final int tv_worker_alive=0x7f050046;
+        public static final int tv_worker_hashrate=0x7f050047;
+        public static final int tv_worker_lastshare_timestamp=0x7f050048;
+        public static final int tv_worker_name=0x7f050045;
         public static final int useLogo=0x7f050004;
         public static final int vp_workers=0x7f050040;
         public static final int workers=0x7f050037;
