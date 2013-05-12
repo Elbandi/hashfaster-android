@@ -3,10 +3,13 @@ package com.inajstudios.wemineltc;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -15,7 +18,7 @@ import com.inajstudios.wemineltc.interfaces.RefreshListener;
 import com.inajstudios.wemineltc.managers.PrefManager;
 import com.inajstudios.wemineltc.tasks.GetMinerDataTask;
 
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends SherlockFragmentActivity implements ActionBar.TabListener{
 
 	TextView mData;
 	TextView mUsername, mRewards, mRoundEstimate, mHashrate, mPayoutHistory, mRoundShares, mTimestamp, mAddress;
@@ -82,11 +85,33 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		return true;
 	}
+	
 
+    @Override
+    public void onTabSelected(Tab tab, FragmentTransaction transaction) {
+    }
+
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		
+	}
+	
+	
+	/*
+	 * Updating view with new data
+	 */
 	public void updateView() {
 		new GetMinerDataTask(this, refreshListener).execute();
 	}
 
+	
+	
 	/*
 	 * Setting up listeners
 	 */
