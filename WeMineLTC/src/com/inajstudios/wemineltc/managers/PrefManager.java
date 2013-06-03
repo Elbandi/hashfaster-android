@@ -22,6 +22,14 @@ public class PrefManager {
 		setPreference(context, "API_KEY", value);
 	}
 
+	public static Boolean getSeenHomeTutorial(Context context) {
+		return getPreference(context, "HOME_TUTORIAL", false);
+	}
+
+	public static void setSeenHomeTutorial(Context context, Boolean value) {
+		setPreference(context, "HOME_TUTORIAL", value);
+	}
+
 	/*
 	 * Android preference helpers
 	 */

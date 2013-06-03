@@ -1,5 +1,6 @@
 # cache for current jar dependecy. DO NOT EDIT.
 # format is <lastModified> <length> <SHA-1> <path>
 # Encoding is UTF-8
-1368331630000 393154 307c1cc532eabbf1d135b43e5c983c9da700449d /home/jwong/digiflare/bravo-android/library/abs/libs/android-support-v4.jar
+1368455560000 393154 307c1cc532eabbf1d135b43e5c983c9da700449d /home/jwong/digiflare/bravo-android/library/abs/libs/android-support-v4.jar
 1368331630000 393154 307c1cc532eabbf1d135b43e5c983c9da700449d /home/jwong/workspace-test/wemineltc-android/WeMineLTC/libs/android-support-v4.jar
+1368455560000 393154 307c1cc532eabbf1d135b43e5c983c9da700449d /home/jwong/android-git-libraries/SlidingMenu/library/libs/android-support-v4.jar

@@ -6,7 +6,7 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/workers" >
+        android:layout_above="@+id/rl_refresh" >
 
         <LinearLayout
             android:id="@+id/information_container"
@@ -102,24 +102,31 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/workers"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:id="@+id/rl_refresh"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical" >
+        android:background="#CCCCCC"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:src="@drawable/clock" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:text="Workers (swipe to see more!)"
-            android:textSize="20sp" />
+            android:gravity="center"
+            android:text="Last Update: " />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_workers"
+        <TextView
+            android:id="@+id/tv_last_update"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentBottom="true" />
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
     </LinearLayout>
 
 </RelativeLayout>

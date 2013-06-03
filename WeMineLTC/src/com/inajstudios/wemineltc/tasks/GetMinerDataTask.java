@@ -14,17 +14,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
 
-import com.inajstudios.wemineltc.MainActivity;
-import com.inajstudios.wemineltc.R;
 import com.inajstudios.wemineltc.adapters.MinerViewPagerAdapter;
 import com.inajstudios.wemineltc.interfaces.RefreshListener;
 import com.inajstudios.wemineltc.managers.MinerManager;
 import com.inajstudios.wemineltc.managers.PrefManager;
-import com.inajstudios.wemineltc.models.Miner;
 import com.inajstudios.wemineltc.parsers.MinerParser;
 
 /**
@@ -37,18 +34,13 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 	private static final String BASEURL = "http://wemineltc.com/api?api_key=";
 
 	InputStream is = null;
-	MainActivity mActivity;
+	Context mContext;
 	RefreshListener mListener;
 	MinerViewPagerAdapter mAdapter;
-	TextView mError;
 
-	public GetMinerDataTask() {
-	}
-
-	public GetMinerDataTask(MainActivity mainActivity, RefreshListener listener) {
-		mActivity = mainActivity;
+	public GetMinerDataTask(Context context, RefreshListener listener) {
+		mContext = context;
 		mListener = listener;
-		mError = (TextView) mActivity.findViewById(R.id.tv_error);
 	}
 
 	@Override
@@ -58,7 +50,7 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 		JSONObject result = new JSONObject();
 
 		try {
-			String mURL = BASEURL + PrefManager.getAPIKey(mActivity);
+			String mURL = BASEURL + PrefManager.getAPIKey(mContext);
 			Log.v("WEMINELTC", "GetPoolDataTask: url is + " + mURL);
 
 			HttpPost httpPost = new HttpPost(mURL);
@@ -100,27 +92,14 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
 		try {
-			
+
 			new MinerParser();
 			MinerManager.getInstance().setMiner(MinerParser.parseMiner(result));
-			Miner mMiner = new Miner();
-			mMiner = MinerManager.getInstance().miner;
+			Log.w("WEMINELTC", result.toString());
+			Log.w("WEMINELTC", MinerManager.getInstance().miner.username);
 
-			TextView mUsername = (TextView) mActivity.findViewById(R.id.tv_username);
-			TextView mRewards = (TextView) mActivity.findViewById(R.id.tv_confirmed_rewards);
-			TextView mRoundEstimate = (TextView) mActivity.findViewById(R.id.tv_round_estimate);
-			TextView mHashrate = (TextView) mActivity.findViewById(R.id.tv_total_hashrate);
-			TextView mPayoutHistory = (TextView) mActivity.findViewById(R.id.tv_payout_history);
-			TextView mRoundShares = (TextView) mActivity.findViewById(R.id.tv_round_shares);
-
-			mUsername.setText(mMiner.username);
-			mRewards.setText(String.valueOf(mMiner.confirmed_rewards) + " LTC");
-			mRoundEstimate.setText(String.valueOf(mMiner.round_estimate) + " LTC");
-			mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");
-			mPayoutHistory.setText(String.valueOf(mMiner.payout_history) + " LTC");
-			mRoundShares.setText(String.valueOf(mMiner.round_shares));
-
-			mListener.onRefresh();
+			if (mListener != null && result != null)
+				mListener.onRefresh();
 
 		} catch (JSONException e) {
 			setError("Error: Invalid API Key!");
