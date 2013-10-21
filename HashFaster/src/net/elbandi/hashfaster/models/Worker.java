@@ -2,8 +2,9 @@ package net.elbandi.hashfaster.models;
 
 public class Worker {
 
+	public int id;
 	public String name;
-	public int alive;
+	public int monitor;
 	public int hashrate;
-	public long last_share_timestamp;
+	public int difficulty;
 }

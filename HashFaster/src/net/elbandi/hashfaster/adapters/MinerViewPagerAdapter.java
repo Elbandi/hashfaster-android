@@ -26,7 +26,7 @@ public class MinerViewPagerAdapter extends PagerAdapter {
 
 	@Override
 	public int getCount() {
-		// Log.w("WEMINELTC", "Size: " +
+		// Log.w("HASHFASTER", "Size: " +
 		// MinerManager.getInstance().miner.workers.size());
 		return MinerManager.getInstance().miner.workers.size();
 	}
@@ -50,7 +50,7 @@ public class MinerViewPagerAdapter extends PagerAdapter {
 
 		mName.setText(worker.name);
 
-		if (worker.alive == 1) {
+		if (worker.hashrate > 0) {
 			String aliveText = "Alive";
 			mAlive.setTextColor(mContext.getResources().getColor(R.color.worker_alive));
 			mAlive.setText(aliveText);
@@ -62,12 +62,12 @@ public class MinerViewPagerAdapter extends PagerAdapter {
 
 		mHashRate.setText(worker.hashrate + " Kh/s");
 
-		if (worker.last_share_timestamp == 0) {
+//		if (worker.last_share_timestamp == 0) {
 			mTimestamp.setText("Undefined");
-		} else {
-			mTimestamp.setText(DateFormat.format("dd/MM/yyyy hh:mm:ssaa", worker.last_share_timestamp * 1000L));
-
-		}
+//		} else {
+//			mTimestamp.setText(DateFormat.format("dd/MM/yyyy hh:mm:ssaa", worker.last_share_timestamp * 1000L));
+//
+//		}
 
 		container.addView(view);
 		return view;

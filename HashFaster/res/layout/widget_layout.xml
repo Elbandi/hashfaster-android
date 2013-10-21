@@ -16,40 +16,57 @@
         android:textSize="18sp" >
     </TextView>
 
-    <TextView
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Round Estimate:"
-        android:textColor="#CCCCCC"
-        android:textSize="9sp" >
-    </TextView>
+        android:orientation="horizontal"
+        android:weightSum="100" >
 
-    <TextView
-        android:id="@+id/widget_round_estimate"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp" >
-    </TextView>
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Confirmed Rewards:"
-        android:textColor="#CCCCCC"
-        android:textSize="9sp" >
-    </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Round Shares:"
+                android:textColor="#CCCCCC"
+                android:textSize="9sp" />
 
-    <TextView
-        android:id="@+id/widget_confirmed_rewards"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp" >
-    </TextView>
+            <TextView
+                android:id="@+id/widget_round_shares"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Active Workers:"
+                android:textColor="#CCCCCC"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/widget_active_workers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

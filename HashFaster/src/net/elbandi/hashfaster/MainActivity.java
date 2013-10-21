@@ -9,6 +9,8 @@ import net.elbandi.hashfaster.managers.MinerManager;
 import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.tasks.GetMinerDataTask;
+import net.elbandi.hashfaster.tasks.GetPoolDataTask;
+import net.elbandi.hashfaster.tasks.GetWorkerDataTask;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -25,7 +27,9 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class MainActivity extends CustomSlidingActivity {
 
-	TextView mUsername, mRewards, mRoundEstimate, mHashrate, mPayoutHistory, mRoundShares, mTimestamp, mLastUpdate;
+	TextView mUsername, mHashrate, mRoundShares,
+	mPoolHashrate, mPoolEfficiency, mPoolActiveWorkers, mPoolNextBlock, mPoolLastBlock, mPoolNetworkDiff, mPoolRoundEstimate, mPoolRoundShares, mPoolTimeLastBlock, 
+	mTimestamp, mLastUpdate;
 	TextView mError;
 
 	ViewPager vpWorkers;
@@ -43,15 +47,22 @@ public class MainActivity extends CustomSlidingActivity {
 		setSlidingActionBarEnabled(true);
 
 		mUsername = (TextView) findViewById(R.id.tv_username);
-		mRewards = (TextView) findViewById(R.id.tv_confirmed_rewards);
-		mRoundEstimate = (TextView) findViewById(R.id.tv_round_estimate);
 		mHashrate = (TextView) findViewById(R.id.tv_total_hashrate);
-		mPayoutHistory = (TextView) findViewById(R.id.tv_payout_history);
 		mRoundShares = (TextView) findViewById(R.id.tv_round_shares);
+
+		mPoolHashrate = (TextView) findViewById(R.id.tv_pool_total_hashrate);
+		mPoolEfficiency = (TextView) findViewById(R.id.tv_pool_efficiency);
+		mPoolActiveWorkers = (TextView) findViewById(R.id.tv_pool_active_workers);
+		mPoolNextBlock = (TextView) findViewById(R.id.tv_pool_nextnetworkblock);
+		mPoolLastBlock = (TextView) findViewById(R.id.tv_pool_lastblock);
+		mPoolNetworkDiff = (TextView) findViewById(R.id.tv_pool_networkdiff);
+		mPoolRoundEstimate = (TextView) findViewById(R.id.tv_pool_esttime);
+		mPoolRoundShares = (TextView) findViewById(R.id.tv_pool_estshares);
+		mPoolTimeLastBlock = (TextView) findViewById(R.id.tv_pool_timesincelast);
+
 		mLastUpdate = (TextView) findViewById(R.id.tv_last_update);
 		mError = (TextView) findViewById(R.id.tv_error);
 
-		
 		/*
 		 * Initialize
 		 */
@@ -108,6 +119,14 @@ public class MainActivity extends CustomSlidingActivity {
 	 */
 	public void updateView() {
 		new GetMinerDataTask(this, refreshListener).execute();
+		new GetWorkerDataTask(this, new RefreshListener() {
+
+			@Override
+			public void onRefresh() {
+				mLVAdapter.notifyDataSetChanged();
+			}
+		}).execute();
+		new GetPoolDataTask(this, refreshListener).execute();
 	}
 
 	/**
@@ -116,19 +135,37 @@ public class MainActivity extends CustomSlidingActivity {
 	private void setUpListeners() {
 		refreshListener = new RefreshListener() {
 
+			private String FormatDate(long time) {
+				long msec = time*1000;
+				if ( time < 60) {
+					return DateFormat.format("ss", msec).toString();
+				} else if (time < 3600) { // 60*60
+					return DateFormat.format("mm 'minutes' ss 'seconds", msec).toString();
+				} else if (time < 86400) { // 24*60*60
+					return DateFormat.format("hh 'hours' mm 'minutes' ss 'seconds", msec).toString();
+				} else {
+					return DateFormat.format("D 'days' hh 'hours' mm 'minutes' ss 'seconds", msec).toString();
+				}
+			}
+
 			@Override
 			public void onRefresh() {
-				Miner mMiner = new Miner();
-				mMiner = MinerManager.getInstance().miner;
+				Miner mMiner = MinerManager.getInstance().miner;
 
 				mUsername.setText(mMiner.username);
-				mRewards.setText(String.valueOf(mMiner.confirmed_rewards) + " LTC");
-				mRoundEstimate.setText(String.valueOf(mMiner.round_estimate) + " LTC");
 				mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");
-				mPayoutHistory.setText(String.valueOf(mMiner.payout_history) + " LTC");
 				mRoundShares.setText(String.valueOf(mMiner.round_shares));
+				mPoolHashrate.setText(String.valueOf(mMiner.pool.hashrate) + " Kh/s");
+				mPoolEfficiency.setText(String.valueOf(mMiner.pool.efficiency));
+				mPoolActiveWorkers.setText(String.valueOf(mMiner.pool.workers)); 
+				mPoolNextBlock.setText(String.valueOf(mMiner.pool.nextnetworkblock));
+				mPoolLastBlock.setText(String.valueOf(mMiner.pool.lastblock));
+				mPoolNetworkDiff.setText(String.valueOf(mMiner.pool.networkdiff));
+				mPoolRoundEstimate.setText(FormatDate(Math.round(mMiner.pool.esttime)));
+				mPoolRoundShares.setText(String.valueOf(Math.round(mMiner.pool.estshares)));
+				mPoolTimeLastBlock.setText(FormatDate(mMiner.pool.timesincelast));
 
-				mLVAdapter.notifyDataSetChanged();
+//				mLVAdapter.notifyDataSetChanged();
 
 				long dtMili = System.currentTimeMillis();
 				Date d = new Date(dtMili);

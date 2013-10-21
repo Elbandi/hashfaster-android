@@ -6,6 +6,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
+import net.elbandi.hashfaster.adapters.MinerViewPagerAdapter;
+import net.elbandi.hashfaster.interfaces.RefreshListener;
+import net.elbandi.hashfaster.managers.MinerManager;
+import net.elbandi.hashfaster.managers.PrefManager;
+import net.elbandi.hashfaster.parsers.MinerParser;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -14,45 +20,28 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
-import net.elbandi.hashfaster.MainActivity;
-import net.elbandi.hashfaster.R;
-import net.elbandi.hashfaster.adapters.MinerViewPagerAdapter;
-import net.elbandi.hashfaster.managers.MinerManager;
-import net.elbandi.hashfaster.managers.PrefManager;
-import net.elbandi.hashfaster.models.Miner;
-import net.elbandi.hashfaster.parsers.MinerParser;
 
 /**
  * Reads APIKEY from Shared Preferences and then attempts to get JSON from the
  * appropriate BASEURL.
  * 
  */
-public class InitTask extends AsyncTask<String, Void, JSONObject> {
+public class GetWorkerDataTask extends AsyncTask<String, Void, JSONObject> {
 
-	private static final String BASEURL = "http://ltc.hashfaster.com/api?api_key=";
+	private static final String BASEURL = "http://ltc.hashfaster.com/index.php?page=api&action=getuserworkers&api_key=";
 
 	InputStream is = null;
+	Context mContext;
+	RefreshListener mListener;
 	MinerViewPagerAdapter mAdapter;
-	Miner mMiner;
-	MainActivity mActivity;
-	TextView mError;
 
-	public InitTask() {
-	}
-
-	public InitTask(MainActivity mainActivity, MinerViewPagerAdapter adapter) {
-		mActivity = mainActivity;
-		mAdapter = adapter;
-
-		mError = (TextView) mActivity.findViewById(R.id.tv_error);
+	public GetWorkerDataTask(Context context, RefreshListener listener) {
+		mContext = context;
+		mListener = listener;
 	}
 
 	@Override
@@ -62,8 +51,8 @@ public class InitTask extends AsyncTask<String, Void, JSONObject> {
 		JSONObject result = new JSONObject();
 
 		try {
-			String mURL = BASEURL + PrefManager.getAPIKey(mActivity);
-			Log.v("HASHFASTER", "GetPoolDataTask: url is + " + mURL);
+			String mURL = BASEURL + PrefManager.getAPIKey(mContext);
+			Log.v("HASHFASTER", "GetWorkerDataTask: url is + " + mURL);
 
 			HttpPost httpPost = new HttpPost(mURL);
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -90,40 +79,27 @@ public class InitTask extends AsyncTask<String, Void, JSONObject> {
 			}
 			is.close();
 			JSONString = sb.toString();
-			Log.v("HASHFASTER", "GetPoolDataTask: JSONString is:\n" + JSONString);
+			Log.v("HASHFASTER", "GetWorkerDataTask: JSONString is:\n" + JSONString);
 			result = new JSONObject(JSONString);
 		} catch (Exception e) {
 			setError("Error: Invalid API Key!");
 		}
 
-		Log.v("HASHFASTER", "GetPoolDataTask: result:\n" + result.toString());
+		Log.v("HASHFASTER", "GetWorkerDataTask: result:\n" + result.toString());
 		return result;
 	}
 
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
-
+		if (result.length() == 0) return;
 		try {
-			if (result == null) {
-				setError("Error: Invalid API Key!");
-				return;
-			}
-			MinerManager.getInstance().setMiner(mMiner);
+			MinerManager.getInstance().setWorkers(MinerParser.parseWorkers(result));
+			Log.w("HASHFASTER", result.toString());
+			Log.w("HASHFASTER", MinerManager.getInstance().miner.username);
 
-			if (mAdapter != null) {
-				mMiner = MinerParser.parseMiner(result);
-
-				TextView mUsername = (TextView) mActivity.findViewById(R.id.tv_username);
-				TextView mHashrate = (TextView) mActivity.findViewById(R.id.tv_total_hashrate);
-				TextView mRoundShares = (TextView) mActivity.findViewById(R.id.tv_round_shares);
-
-				mUsername.setText(mMiner.username);
-				mHashrate.setText(String.valueOf(mMiner.total_hashrate));
-				mRoundShares.setText(String.valueOf(mMiner.round_shares));
-
-				mAdapter.notifyDataSetChanged();
-			}
+			if (mListener != null && result != null)
+				mListener.onRefresh();
 
 		} catch (JSONException e) {
 			setError("Error: Invalid API Key!");

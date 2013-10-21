@@ -18,7 +18,7 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ninchuu&apos;s quick and dirty wemineltc.com checker"
+            android:text="Quick and dirty ltc.hashfaster.com checker\n(based on Ninchuu&apos;s WeMineLTC checker)"
             android:textSize="20dp" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LTwXXxSQorSz9LkhtxH3DLEdVmKfhpPfwp" />
+            android:text="LRJiKrH9hu1bCZjsi7sVTveLNqgqwbnKPt" />
 
         <Button
             android:id="@+id/btn_save_address"

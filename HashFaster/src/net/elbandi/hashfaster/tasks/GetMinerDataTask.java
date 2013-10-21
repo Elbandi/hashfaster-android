@@ -32,7 +32,7 @@ import android.util.Log;
  */
 public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 
-	private static final String BASEURL = "http://wemineltc.com/api?api_key=";
+	private static final String BASEURL = "http://ltc.hashfaster.com/index.php?page=api&action=getuserstatus&api_key=";
 
 	InputStream is = null;
 	Context mContext;
@@ -52,7 +52,7 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 
 		try {
 			String mURL = BASEURL + PrefManager.getAPIKey(mContext);
-			Log.v("WEMINELTC", "GetPoolDataTask: url is + " + mURL);
+			Log.v("HASHFASTER", "GetMinerDataTask: url is + " + mURL);
 
 			HttpPost httpPost = new HttpPost(mURL);
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -79,13 +79,13 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 			}
 			is.close();
 			JSONString = sb.toString();
-			Log.v("WEMINELTC", "GetPoolDataTask: JSONString is:\n" + JSONString);
+			Log.v("HASHFASTER", "GetMinerDataTask: JSONString is:\n" + JSONString);
 			result = new JSONObject(JSONString);
 		} catch (Exception e) {
 			setError("Error: Invalid API Key!");
 		}
 
-		Log.v("WEMINELTC", "GetPoolDataTask: result:\n" + result.toString());
+		Log.v("HASHFASTER", "GetMinerDataTask: result:\n" + result.toString());
 		return result;
 	}
 
@@ -93,11 +93,10 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
 		try {
-
-			new MinerParser();
+			if (result.length() == 0) return;
 			MinerManager.getInstance().setMiner(MinerParser.parseMiner(result));
-			Log.w("WEMINELTC", result.toString());
-			Log.w("WEMINELTC", MinerManager.getInstance().miner.username);
+			Log.w("HASHFASTER", result.toString());
+			Log.w("HASHFASTER", MinerManager.getInstance().miner.username);
 
 			if (mListener != null && result != null)
 				mListener.onRefresh();

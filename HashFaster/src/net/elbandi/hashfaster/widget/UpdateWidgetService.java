@@ -15,12 +15,15 @@ import net.elbandi.hashfaster.R;
 import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.MinerManager;
 import net.elbandi.hashfaster.models.Miner;
+import net.elbandi.hashfaster.models.Worker;
 import net.elbandi.hashfaster.tasks.GetMinerDataTask;
+import net.elbandi.hashfaster.tasks.GetWorkerDataTask;
 
 public class UpdateWidgetService extends Service {
-	private static final String LOG = "WEMINELTC";
+	private static final String LOG = "HASHFASTER";
 	Miner mMiner = new Miner();
 	RefreshListener refreshListener;
+
 	@Override
 	public void onStart(Intent intent, int startId) {
 		Log.i(LOG, "UpdateWidgetService: onStart() called");
@@ -46,12 +49,18 @@ public class UpdateWidgetService extends Service {
 				}
 			};
 
+			int count = 0, active = 0;
+			for (Worker w : mMiner.workers) {
+				count++;
+				if (w.hashrate > 0)
+					active++;
+			}
 			remoteViews.setTextViewText(R.id.widget_hashrate, mMiner.total_hashrate + " Kh/s");
-			remoteViews.setTextViewText(R.id.widget_round_estimate, mMiner.round_estimate + " LTC");
-			remoteViews.setTextViewText(R.id.widget_confirmed_rewards, mMiner.confirmed_rewards + " LTC");
-
+			remoteViews.setTextViewText(R.id.widget_round_shares, mMiner.round_shares + "/" + mMiner.round_shares_invalid);
+			remoteViews.setTextViewText(R.id.widget_active_workers, active + "/" + count);
 
 			new GetMinerDataTask(getApplicationContext(), refreshListener).execute();
+			new GetWorkerDataTask(getApplicationContext(), refreshListener).execute();
 
 			// Register an onClickListener
 			Intent clickIntent = new Intent(this.getApplicationContext(), MyWidgetProvider.class);
@@ -63,7 +72,7 @@ public class UpdateWidgetService extends Service {
 			remoteViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
-			Toast.makeText(getApplicationContext(), "WeMineLTC: Updated stats", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "HashFaster: Updated stats", Toast.LENGTH_LONG).show();
 		}
 		// stopSelf();
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.elbandi.hashfaster.models.Miner;
+import net.elbandi.hashfaster.models.Pool;
 import net.elbandi.hashfaster.models.Worker;
 
 
@@ -26,6 +27,14 @@ public class MinerManager {
 
 	public Miner getMiner() {
 		return miner;
+	}
+
+	public void setWorkers(List<Worker> workers) {
+		this.miner.workers = workers;
+	}
+	
+	public void setPool(Pool pool) {
+		this.miner.pool = pool;
 	}
 	
 	public List<Worker> getWorkers()

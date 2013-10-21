@@ -48,7 +48,7 @@ public class MinerListViewAdapter extends BaseAdapter {
 
 		mName.setText(worker.name);
 
-		if (worker.alive == 1) {
+		if (worker.hashrate > 0) {
 			mAlive.setBackgroundResource(R.color.green);
 		} else {
 			mAlive.setBackgroundResource(R.color.red);
