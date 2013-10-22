@@ -1,0 +1,75 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+apply plugin: 'android'
+
+dependencies {
+    compile 'com.android.support:support-v4:18.0.+'
+    compile project(':Libraries:ActionBarSherlock:actionbarsherlock')
+    compile project(':Libraries:SlidingMenu:library')
+}
+
+task release(dependsOn: assemble , type: Copy, description: "Copy packages to bin directory") {
+    from('build/apk') {
+        include '*.apk'
+    }
+    into file('../bin')
+}
+
+android {
+    compileSdkVersion 'android-15'
+    buildToolsVersion '18.0.1'
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        signing {
+            if (project.hasProperty('storeFile') &&
+                    project.hasProperty('storePassword') &&
+                    project.hasProperty('keyAlias') &&
+                    project.hasProperty('keyPassword')) {
+                storeFile = file(project.storeFile)
+                storePassword = project.storePassword
+                keyAlias = project.keyAlias
+                keyPassword = project.keyPassword
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+            if (project.hasProperty('storeFile')) {
+                signingConfig signingConfigs.signing
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+        }
+    }
+
+    project.archivesBaseName += "-" + defaultConfig.versionName
+}
+
+
+task getVersion << {
+  System.println android.defaultConfig.versionName
+}
+
+task getVersionCode << {
+  System.println android.defaultConfig.versionCode
+}

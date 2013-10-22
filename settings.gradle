@@ -1,0 +1,6 @@
+include ':Libraries:ActionBarSherlock:actionbarsherlock'
+project(':Libraries:ActionBarSherlock').buildFileName = 'donotuse'
+include ':Libraries:SlidingMenu:library'
+project(':Libraries:SlidingMenu:library').buildFileName = '../../SlidingMenu.build.gradle'
+include ':HashFaster'
+
