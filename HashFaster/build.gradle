@@ -15,13 +15,6 @@ dependencies {
     compile project(':Libraries:SlidingMenu:library')
 }
 
-task release(dependsOn: assemble , type: Copy, description: "Copy packages to bin directory") {
-    from('build/apk') {
-        include '*.apk'
-    }
-    into file('../bin')
-}
-
 android {
     compileSdkVersion 'android-15'
     buildToolsVersion '18.0.1'
@@ -91,4 +84,11 @@ task getVersion << {
 
 task getVersionCode << {
   System.println android.defaultConfig.versionCode
+}
+
+task release(dependsOn: assemble , type: Copy, description: "Copy packages to bin directory") {
+    from('build/apk') {
+        include '*.apk'
+    }
+    into file('../bin')
 }
