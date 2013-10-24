@@ -43,14 +43,32 @@ android {
                 keyPassword = project.keyPassword
             }
         }
+        devel {
+            if (project.hasProperty('storeDebugFile')) {
+                storeFile = file(project.storeDebugFile)
+            }
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
     }
 
     buildTypes {
         release {
+            debuggable false
             runProguard false
             proguardFile getDefaultProguardFile('proguard-android.txt')
             if (project.hasProperty('storeFile')) {
                 signingConfig signingConfigs.signing
+            }
+        }
+        devel {
+            debuggable true
+            packageNameSuffix ".debug"
+            versionNameSuffix "-debug"
+            zipAlign true
+            if (project.hasProperty('storeDebugFile')) {
+                signingConfig signingConfigs.devel
             }
         }
     }
@@ -63,9 +81,9 @@ android {
         }
     }
 
+    if (System.getenv("GIT_COMMIT")) defaultConfig.versionName += '-' + System.getenv("GIT_COMMIT").substring(0, 7);
     project.archivesBaseName += "-" + defaultConfig.versionName
 }
-
 
 task getVersion << {
   System.println android.defaultConfig.versionName
