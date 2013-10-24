@@ -95,8 +95,6 @@ public class GetWorkerDataTask extends AsyncTask<String, Void, JSONObject> {
 		if (result.length() == 0) return;
 		try {
 			MinerManager.getInstance().setWorkers(MinerParser.parseWorkers(result));
-			Log.w("HASHFASTER", result.toString());
-			Log.w("HASHFASTER", MinerManager.getInstance().miner.username);
 
 			if (mListener != null && result != null)
 				mListener.onRefresh();

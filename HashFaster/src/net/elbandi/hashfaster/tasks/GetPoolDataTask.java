@@ -95,8 +95,6 @@ public class GetPoolDataTask extends AsyncTask<String, Void, JSONObject> {
 		if (result.length() == 0) return;
 		try {
 			MinerManager.getInstance().setPool(MinerParser.parsePool(result));
-			Log.w("HASHFASTER", result.toString());
-			Log.w("HASHFASTER", MinerManager.getInstance().miner.username);
 
 			if (mListener != null && result != null)
 				mListener.onRefresh();

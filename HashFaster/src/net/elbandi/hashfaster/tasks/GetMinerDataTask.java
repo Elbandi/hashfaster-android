@@ -95,8 +95,6 @@ public class GetMinerDataTask extends AsyncTask<String, Void, JSONObject> {
 		try {
 			if (result.length() == 0) return;
 			MinerManager.getInstance().setMiner(MinerParser.parseMiner(result));
-			Log.w("HASHFASTER", result.toString());
-			Log.w("HASHFASTER", MinerManager.getInstance().miner.username);
 
 			if (mListener != null && result != null)
 				mListener.onRefresh();
