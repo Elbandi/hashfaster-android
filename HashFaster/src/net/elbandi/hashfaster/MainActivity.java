@@ -1,6 +1,10 @@
 package net.elbandi.hashfaster;
 
 import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
 import net.elbandi.hashfaster.R;
 import net.elbandi.hashfaster.adapters.MinerListViewAdapter;
 import net.elbandi.hashfaster.controls.HomeTutorialDialog;
@@ -134,17 +138,19 @@ public class MainActivity extends CustomSlidingActivity {
 	 */
 	private void setUpListeners() {
 		refreshListener = new RefreshListener() {
+			Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
 
 			private String FormatDate(long time) {
-				long msec = time*1000;
+				long msec = time * 1000;
+				cal.setTimeInMillis(msec);
 				if ( time < 60) {
-					return DateFormat.format("ss", msec).toString();
+					return DateFormat.format("ss", cal).toString();
 				} else if (time < 3600) { // 60*60
-					return DateFormat.format("mm 'minutes' ss 'seconds", msec).toString();
+					return DateFormat.format("mm 'minutes' ss 'seconds", cal).toString();
 				} else if (time < 86400) { // 24*60*60
-					return DateFormat.format("hh 'hours' mm 'minutes' ss 'seconds", msec).toString();
+					return DateFormat.format("hh 'hours' mm 'minutes' ss 'seconds", cal).toString();
 				} else {
-					return DateFormat.format("D 'days' hh 'hours' mm 'minutes' ss 'seconds", msec).toString();
+					return DateFormat.format("D 'days' hh 'hours' mm 'minutes' ss 'seconds", cal).toString();
 				}
 			}
 
