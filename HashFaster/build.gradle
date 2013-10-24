@@ -93,3 +93,10 @@ task release(dependsOn: assemble , type: Copy, description: "Copy packages to bi
     }
     into file('../bin')
 }
+
+task releaseDevel(dependsOn: assembleDevel , type: Copy, description: "Copy packages to bin directory") {
+    from('build/apk') {
+        include '*.apk'
+    }
+    into file('../bin')
+}
