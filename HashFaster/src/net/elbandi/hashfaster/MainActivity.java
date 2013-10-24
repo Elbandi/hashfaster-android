@@ -42,7 +42,8 @@ public class MainActivity extends CustomSlidingActivity {
 
 	MinerListViewAdapter mLVAdapter;
 
-	RefreshListener refreshListener;
+	RefreshListener refreshMinerListener;
+	RefreshListener refreshPoolListener;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -123,7 +124,7 @@ public class MainActivity extends CustomSlidingActivity {
 	 * Updating view with new data
 	 */
 	public void updateView() {
-		new GetMinerDataTask(this, refreshListener).execute();
+		new GetMinerDataTask(this, refreshMinerListener).execute();
 		new GetWorkerDataTask(this, new RefreshListener() {
 
 			@Override
@@ -131,14 +132,35 @@ public class MainActivity extends CustomSlidingActivity {
 				mLVAdapter.notifyDataSetChanged();
 			}
 		}).execute();
-		new GetPoolDataTask(this, refreshListener).execute();
+		new GetPoolDataTask(this, refreshPoolListener).execute();
 	}
 
 	/**
 	 * Setting up listeners
 	 */
 	private void setUpListeners() {
-		refreshListener = new RefreshListener() {
+		refreshMinerListener = new RefreshListener() {
+
+			@Override
+			public void onRefresh() {
+				Miner mMiner = MinerManager.getInstance().getMiner();
+
+				mUsername.setText(mMiner.username);
+				mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");
+				mRoundShares.setText(String.valueOf(mMiner.round_shares));
+
+//				mLVAdapter.notifyDataSetChanged();
+
+				long dtMili = System.currentTimeMillis();
+				Date d = new Date(dtMili);
+				CharSequence s = DateFormat.format("hh:mm:ss, EEEE, MMMM d, yyyy ", d.getTime());
+				// textView is the TextView view that should display it
+				mLastUpdate.setText(s);
+
+			}
+		};
+
+		refreshPoolListener = new RefreshListener() {
 			Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
 
 			private String FormatDate(long time) {
@@ -157,12 +179,7 @@ public class MainActivity extends CustomSlidingActivity {
 
 			@Override
 			public void onRefresh() {
-				Miner mMiner = MinerManager.getInstance().getMiner();
 				Pool mPool = MinerManager.getInstance().getPool();
-
-				mUsername.setText(mMiner.username);
-				mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");
-				mRoundShares.setText(String.valueOf(mMiner.round_shares));
 
 				mPoolHashrate.setText(String.valueOf(mPool.hashrate) + " Kh/s");
 				mPoolEfficiency.setText(String.valueOf(mPool.efficiency));
