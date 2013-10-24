@@ -22,12 +22,12 @@ public class MinerListViewAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return MinerManager.getInstance().miner.workers.size();
+		return MinerManager.getInstance().getMiner().getWorkers().size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return MinerManager.getInstance().miner.workers.get(position);
+		return MinerManager.getInstance().getMiner().getWorkers().get(position);
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class MinerListViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		Worker worker = MinerManager.getInstance().miner.workers.get(position);
+		Worker worker = MinerManager.getInstance().getMiner().getWorkers().get(position);
 
 		convertView = inflater.inflate(R.layout.sd_worker_item, null);
 		TextView mName = (TextView) convertView.findViewById(R.id.tv_worker_name);

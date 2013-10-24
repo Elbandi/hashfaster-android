@@ -12,6 +12,7 @@ import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.MinerManager;
 import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.models.Miner;
+import net.elbandi.hashfaster.models.Pool;
 import net.elbandi.hashfaster.tasks.GetMinerDataTask;
 import net.elbandi.hashfaster.tasks.GetPoolDataTask;
 import net.elbandi.hashfaster.tasks.GetWorkerDataTask;
@@ -156,20 +157,22 @@ public class MainActivity extends CustomSlidingActivity {
 
 			@Override
 			public void onRefresh() {
-				Miner mMiner = MinerManager.getInstance().miner;
+				Miner mMiner = MinerManager.getInstance().getMiner();
+				Pool mPool = MinerManager.getInstance().getPool();
 
 				mUsername.setText(mMiner.username);
 				mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");
 				mRoundShares.setText(String.valueOf(mMiner.round_shares));
-				mPoolHashrate.setText(String.valueOf(mMiner.pool.hashrate) + " Kh/s");
-				mPoolEfficiency.setText(String.valueOf(mMiner.pool.efficiency));
-				mPoolActiveWorkers.setText(String.valueOf(mMiner.pool.workers)); 
-				mPoolNextBlock.setText(String.valueOf(mMiner.pool.nextnetworkblock));
-				mPoolLastBlock.setText(String.valueOf(mMiner.pool.lastblock));
-				mPoolNetworkDiff.setText(String.valueOf(mMiner.pool.networkdiff));
-				mPoolRoundEstimate.setText(FormatDate(Math.round(mMiner.pool.esttime)));
-				mPoolRoundShares.setText(String.valueOf(Math.round(mMiner.pool.estshares)));
-				mPoolTimeLastBlock.setText(FormatDate(mMiner.pool.timesincelast));
+
+				mPoolHashrate.setText(String.valueOf(mPool.hashrate) + " Kh/s");
+				mPoolEfficiency.setText(String.valueOf(mPool.efficiency));
+				mPoolActiveWorkers.setText(String.valueOf(mPool.workers));
+				mPoolNextBlock.setText(String.valueOf(mPool.nextnetworkblock));
+				mPoolLastBlock.setText(String.valueOf(mPool.lastblock));
+				mPoolNetworkDiff.setText(String.valueOf(mPool.networkdiff));
+				mPoolRoundEstimate.setText(FormatDate(Math.round(mPool.esttime)));
+				mPoolRoundShares.setText(String.valueOf(Math.round(mPool.estshares)));
+				mPoolTimeLastBlock.setText(FormatDate(mPool.timesincelast));
 
 //				mLVAdapter.notifyDataSetChanged();
 

@@ -45,12 +45,12 @@ public class UpdateWidgetService extends Service {
 				@Override
 				public void onRefresh() {
 					Log.w(LOG, "onRefresh() called");
-					mMiner = MinerManager.getInstance().miner;
+					mMiner = MinerManager.getInstance().getMiner();
 				}
 			};
 
 			int count = 0, active = 0;
-			for (Worker w : mMiner.workers) {
+			for (Worker w : mMiner.getWorkers()) {
 				count++;
 				if (w.hashrate > 0)
 					active++;

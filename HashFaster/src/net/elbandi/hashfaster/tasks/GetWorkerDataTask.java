@@ -94,7 +94,7 @@ public class GetWorkerDataTask extends AsyncTask<String, Void, JSONObject> {
 		super.onPostExecute(result);
 		if (result.length() == 0) return;
 		try {
-			MinerManager.getInstance().setWorkers(MinerParser.parseWorkers(result));
+			MinerManager.getInstance().getMiner().setWorkers(MinerParser.parseWorkers(result));
 
 			if (mListener != null && result != null)
 				mListener.onRefresh();

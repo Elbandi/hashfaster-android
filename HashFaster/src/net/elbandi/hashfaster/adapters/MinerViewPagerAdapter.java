@@ -28,7 +28,7 @@ public class MinerViewPagerAdapter extends PagerAdapter {
 	public int getCount() {
 		// Log.w("HASHFASTER", "Size: " +
 		// MinerManager.getInstance().miner.workers.size());
-		return MinerManager.getInstance().miner.workers.size();
+		return MinerManager.getInstance().getMiner().getWorkers().size();
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class MinerViewPagerAdapter extends PagerAdapter {
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		Worker worker = MinerManager.getInstance().miner.workers.get(position);
+		Worker worker = MinerManager.getInstance().getMiner().getWorkers().get(position);
 		View view = null;
 
 		view = inflater.inflate(R.layout.worker_item, null);

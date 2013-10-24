@@ -1,18 +1,13 @@
 package net.elbandi.hashfaster.managers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.models.Pool;
-import net.elbandi.hashfaster.models.Worker;
-
-
 
 public class MinerManager {
 	private static MinerManager _instance;
 
-	public Miner miner = new Miner();
+	private Miner miner = new Miner();
+	private Pool pool = new Pool();
 
 	public static MinerManager getInstance() {
 		if (_instance == null)
@@ -20,7 +15,7 @@ public class MinerManager {
 
 		return _instance;
 	}
-	
+
 	public void setMiner(Miner miner) {
 		this.miner = miner;
 	}
@@ -29,24 +24,11 @@ public class MinerManager {
 		return miner;
 	}
 
-	public void setWorkers(List<Worker> workers) {
-		this.miner.workers = workers;
-	}
-	
 	public void setPool(Pool pool) {
-		this.miner.pool = pool;
+		this.pool = pool;
 	}
-	
-	public List<Worker> getWorkers()
-	{
-		ArrayList<Worker> result = new ArrayList<Worker>();
-		
-		for (Worker worker : miner.workers)
-		{
-			result.add(worker);
-		}
-		
-		return result;
+
+	public Pool getPool() {
+		return pool;
 	}
-	
 }
