@@ -13,6 +13,7 @@ import net.elbandi.hashfaster.controls.HomeTutorialDialog;
 import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.MinerManager;
 import net.elbandi.hashfaster.managers.PrefManager;
+import net.elbandi.hashfaster.models.Balance;
 import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.models.Pool;
 import net.elbandi.hashfaster.tasks.GetDataTask;
@@ -34,8 +35,9 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 	private PullToRefreshAttacher mPullToRefreshAttacher;
 
 	TextView mUsername, mHashrate, mRoundShares,
-	mPoolHashrate, mPoolEfficiency, mPoolActiveWorkers, mPoolNextBlock, mPoolLastBlock, mPoolNetworkDiff, mPoolRoundEstimate, mPoolRoundShares, mPoolTimeLastBlock, 
-	mTimestamp, mLastUpdate;
+		mPoolHashrate, mPoolEfficiency, mPoolActiveWorkers, mPoolNextBlock, mPoolLastBlock, mPoolNetworkDiff, mPoolRoundEstimate, mPoolRoundShares, mPoolTimeLastBlock,
+		mBalanceConfirmed, mBalanceUnconfirmed,
+		mTimestamp, mLastUpdate;
 	TextView mError;
 	ScrollView mRefresh;
 
@@ -56,6 +58,8 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 		mUsername = (TextView) findViewById(R.id.tv_username);
 		mHashrate = (TextView) findViewById(R.id.tv_total_hashrate);
 		mRoundShares = (TextView) findViewById(R.id.tv_round_shares);
+		mBalanceConfirmed = (TextView) findViewById(R.id.tv_balance_confirmed);
+		mBalanceUnconfirmed = (TextView) findViewById(R.id.tv_balance_pending);
 
 		mPoolHashrate = (TextView) findViewById(R.id.tv_pool_total_hashrate);
 		mPoolEfficiency = (TextView) findViewById(R.id.tv_pool_efficiency);
@@ -160,11 +164,14 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 			@Override
 			public void onRefresh() {
 				Miner mMiner = MinerManager.getInstance().getMiner();
+				Balance mBalance = mMiner.getBalance();
 				Pool mPool = MinerManager.getInstance().getPool();
 
 				mUsername.setText(mMiner.username);
 				mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");
 				mRoundShares.setText(String.valueOf(mMiner.round_shares));
+				mBalanceConfirmed.setText(String.valueOf(mBalance.confirmed));
+				mBalanceUnconfirmed.setText(String.valueOf(mBalance.unconfirmed));
 
 				mPoolHashrate.setText(String.valueOf(mPool.hashrate) + " Kh/s");
 				mPoolEfficiency.setText(String.valueOf(mPool.efficiency));

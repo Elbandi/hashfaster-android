@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.elbandi.hashfaster.MainActivity;
+import net.elbandi.hashfaster.models.Balance;
 import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.models.Pool;
 import net.elbandi.hashfaster.models.Worker;
@@ -28,7 +29,6 @@ public class MinerParser {
 			result.total_hashrate = readJSONInt(json, "hashrate");
 			result.round_shares = !json.isNull("shares") ? readJSONInt(json.getJSONObject("shares"), "valid") : 0;
 			result.round_shares_invalid = !json.isNull("shares") ? readJSONInt(json.getJSONObject("shares"), "invalid") : 0;
-			Log.v("HASHFASTER", "result.round_shares: " + result.round_shares);
 		}
 		return result;
 	}
@@ -58,7 +58,6 @@ public class MinerParser {
 
 			for (int i = 0; i < workers.length(); i++) {
 				Worker worker = parseWorker(workers.getJSONObject(i));
-				Log.w("HASHFASTER", "Worker name added: " + worker.name);
 				result.add(worker);
 			}
 			Collections.reverse(result);
@@ -73,6 +72,17 @@ public class MinerParser {
 		result.monitor = readJSONInt(json, "monitor");
 		result.hashrate = readJSONInt(json, "hashrate");
 		result.difficulty = readJSONInt(json, "difficulty");
+		return result;
+	}
+
+	public static Balance parseBalance(JSONObject json) throws JSONException {
+		Balance result = new Balance();
+		if (json.has("getuserbalance")) {
+			json = json.getJSONObject("getuserbalance");
+			result.confirmed =  readJSONDouble(json, "confirmed");
+			result.unconfirmed =  readJSONDouble(json, "unconfirmed");
+			result.orphaned =  readJSONDouble(json, "orphaned");
+		}
 		return result;
 	}
 

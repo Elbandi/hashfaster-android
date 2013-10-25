@@ -23,6 +23,7 @@ public class GetDataTask extends BaseDataTask {
 			result.put("getuserstatus", DoRequest("getuserstatus").optJSONObject("getuserstatus"));
 			result.put("getuserworkers", DoRequest("getuserworkers").optJSONObject("getuserworkers"));
 			result.put("getpoolstatus", DoRequest("getpoolstatus").optJSONObject("getpoolstatus"));
+			result.put("getuserbalance", DoRequest("getuserbalance").optJSONObject("getuserbalance"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -37,6 +38,7 @@ public class GetDataTask extends BaseDataTask {
 			MinerManager manager = MinerManager.getInstance();
 			Miner miner = MinerParser.parseMiner(result);
 			miner.setWorkers(MinerParser.parseWorkers(result));
+			miner.setBalance(MinerParser.parseBalance(result));
 			manager.setMiner(miner);
 			manager.setPool(MinerParser.parsePool(result));
 		} catch (JSONException e) {

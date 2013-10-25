@@ -10,7 +10,14 @@ public class Miner {
 	public int round_shares; // shares.valid
 	public int round_shares_invalid; // shares.invalid
 	private List<Worker> workers = new ArrayList<Worker>();
+	private Balance balance = new Balance();
 
+	public Balance getBalance() {
+		return balance;
+	}
+	public void setBalance(Balance balance) {
+		this.balance = balance;
+	}
 	public List<Worker> getWorkers() {
 		return workers;
 	}

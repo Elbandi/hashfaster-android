@@ -64,6 +64,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <TextView
+                style="@style/ViewPagerHeaderSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirmed balance" />
+
+            <TextView
+                android:id="@+id/tv_balance_confirmed"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/ViewPagerHeaderSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pending" />
+
+            <TextView
+                android:id="@+id/tv_balance_pending"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dip"
