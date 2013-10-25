@@ -1,13 +1,12 @@
 package net.elbandi.hashfaster.tasks;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.PrefManager;
+import net.elbandi.hashfaster.utils.StringUtils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -57,14 +56,7 @@ public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
 		}
 
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"), 8);
-			StringBuilder sb = new StringBuilder();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-			is.close();
-			JSONString = sb.toString();
+			JSONString = StringUtils.readAll(is, "UTF-8");
 			Log.v("HASHFASTER", "DoRequest: JSONString is:\n" + JSONString);
 			result = new JSONObject(JSONString);
 		} catch (Exception e) {
