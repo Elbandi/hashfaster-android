@@ -96,9 +96,10 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 		if (PrefManager.getAPIKey(this).isEmpty()) {
 			mError.setVisibility(View.VISIBLE);
 			mError.setText("ERROR: Empty API Key, enter one in settings!");
+			mPullToRefreshAttacher.setEnabled(false);
 		} else {
 			mError.setVisibility(View.GONE);
-
+			mPullToRefreshAttacher.setEnabled(true);
 		}
 	}
 
@@ -117,11 +118,10 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 			toggle();
 			break;
 		case R.id.action_refresh:
-			mPullToRefreshAttacher.setRefreshing(true);
 			updateView();
 			break;
 		case R.id.action_settings:
-			intent = new Intent(this, SettingsActivity.class);
+			intent = new Intent(this, PreferenceActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.action_about:
@@ -136,7 +136,10 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 	 * Updating view with new data
 	 */
 	public void updateView() {
-		new GetDataTask(this, refreshListener).execute();
+		if (!PrefManager.getAPIKey(this).isEmpty()) {
+			mPullToRefreshAttacher.setRefreshing(true);
+			new GetDataTask(this, refreshListener).execute();
+		}
 	}
 
 	/**
