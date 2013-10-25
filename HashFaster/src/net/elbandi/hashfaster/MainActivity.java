@@ -13,10 +13,7 @@ import net.elbandi.hashfaster.managers.MinerManager;
 import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.models.Pool;
-import net.elbandi.hashfaster.tasks.GetMinerDataTask;
-import net.elbandi.hashfaster.tasks.GetPoolDataTask;
-import net.elbandi.hashfaster.tasks.GetWorkerDataTask;
-
+import net.elbandi.hashfaster.tasks.GetDataTask;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,8 +39,7 @@ public class MainActivity extends CustomSlidingActivity {
 
 	MinerListViewAdapter mLVAdapter;
 
-	RefreshListener refreshMinerListener;
-	RefreshListener refreshPoolListener;
+	RefreshListener refreshListener;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -124,43 +120,15 @@ public class MainActivity extends CustomSlidingActivity {
 	 * Updating view with new data
 	 */
 	public void updateView() {
-		new GetMinerDataTask(this, refreshMinerListener).execute();
-		new GetWorkerDataTask(this, new RefreshListener() {
-
-			@Override
-			public void onRefresh() {
-				mLVAdapter.notifyDataSetChanged();
-			}
-		}).execute();
-		new GetPoolDataTask(this, refreshPoolListener).execute();
+		new GetDataTask(this, refreshListener).execute();
 	}
 
 	/**
 	 * Setting up listeners
 	 */
 	private void setUpListeners() {
-		refreshMinerListener = new RefreshListener() {
+		refreshListener = new RefreshListener() {
 
-			@Override
-			public void onRefresh() {
-				Miner mMiner = MinerManager.getInstance().getMiner();
-
-				mUsername.setText(mMiner.username);
-				mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");
-				mRoundShares.setText(String.valueOf(mMiner.round_shares));
-
-//				mLVAdapter.notifyDataSetChanged();
-
-				long dtMili = System.currentTimeMillis();
-				Date d = new Date(dtMili);
-				CharSequence s = DateFormat.format("hh:mm:ss, EEEE, MMMM d, yyyy ", d.getTime());
-				// textView is the TextView view that should display it
-				mLastUpdate.setText(s);
-
-			}
-		};
-
-		refreshPoolListener = new RefreshListener() {
 			Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
 
 			private String FormatDate(long time) {
@@ -179,7 +147,12 @@ public class MainActivity extends CustomSlidingActivity {
 
 			@Override
 			public void onRefresh() {
+				Miner mMiner = MinerManager.getInstance().getMiner();
 				Pool mPool = MinerManager.getInstance().getPool();
+
+				mUsername.setText(mMiner.username);
+				mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");
+				mRoundShares.setText(String.valueOf(mMiner.round_shares));
 
 				mPoolHashrate.setText(String.valueOf(mPool.hashrate) + " Kh/s");
 				mPoolEfficiency.setText(String.valueOf(mPool.efficiency));
@@ -191,7 +164,7 @@ public class MainActivity extends CustomSlidingActivity {
 				mPoolRoundShares.setText(String.valueOf(Math.round(mPool.estshares)));
 				mPoolTimeLastBlock.setText(FormatDate(mPool.timesincelast));
 
-//				mLVAdapter.notifyDataSetChanged();
+				mLVAdapter.notifyDataSetChanged();
 
 				long dtMili = System.currentTimeMillis();
 				Date d = new Date(dtMili);

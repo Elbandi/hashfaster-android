@@ -15,8 +15,7 @@ import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.MinerManager;
 import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.models.Worker;
-import net.elbandi.hashfaster.tasks.GetMinerDataTask;
-import net.elbandi.hashfaster.tasks.GetWorkerDataTask;
+import net.elbandi.hashfaster.tasks.GetDataTask;
 
 public class UpdateWidgetService extends Service {
 	private static final String LOG = "HASHFASTER";
@@ -71,8 +70,7 @@ public class UpdateWidgetService extends Service {
 			};
 		};
 
-		new GetMinerDataTask(ctx, refreshListener).execute();
-		new GetWorkerDataTask(ctx, refreshListener).execute();
+		new GetDataTask(ctx, refreshListener).execute();
 		// stopSelf();
 	}
 
