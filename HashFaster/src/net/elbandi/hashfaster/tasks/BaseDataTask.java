@@ -37,7 +37,7 @@ public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
 
 		try {
 			String mURL = String.format(BASEURL, action, PrefManager.getAPIKey(mContext));
-			Log.v("HASHFASTER", "DoRequest: url is + " + mURL);
+			Log.d("HASHFASTER", "DoRequest: url is + " + mURL);
 
 			HttpGet httpPost = new HttpGet(mURL);
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -57,7 +57,7 @@ public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
 
 		try {
 			JSONString = StringUtils.readAll(is, "UTF-8");
-			Log.v("HASHFASTER", "DoRequest: JSONString is:\n" + JSONString);
+			Log.d("HASHFASTER", "DoRequest: JSONString is:\n" + JSONString);
 			if (JSONString != null) {
 				while (JSONString.length() > 0 && JSONString.charAt(0) != '{') JSONString = JSONString.substring(1);
 			}

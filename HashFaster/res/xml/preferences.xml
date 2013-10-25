@@ -1,12 +1,43 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="Authorization" >
+    <PreferenceCategory android:title="@string/pref_user_authorization" >
+        <EditTextPreference
+            android:key="@string/settings_api_key"
+            android:summary="@string/pref_api_key_summary"
+            android:title="@string/pref_api_key" />
+
+        <Preference
+            android:key="@string/settings_qr_scan"
+            android:summary=""
+            android:title="QR Scan" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_update_setting" >
+        <ListPreference
+            android:entries="@array/syncFrequency"
+            android:entryValues="@array/syncFrequencyValues"
+            android:defaultValue="300"
+            android:key="@string/settings_sync_frequency"
+            android:summary="@string/pref_sync_frequency_summary"
+            android:title="@string/pref_sync_frequency" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_error_reporting" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="acra.enable"
+            android:summary="@string/pref_send_report_summary"
+            android:title="@string/pref_send_report" />
 
         <EditTextPreference
-            android:dialogTitle="Enter your API Key"
-            android:key="API_KEY"
-            android:summary="Found in MY ACCOUNT/ACCOUNT DETAILS"
-            android:title="Tap here to enter your API Key" />
+            android:key="acra.user.email"
+            android:summary="@string/pref_acra_user_email_summary"
+            android:title="@string/pref_acra_user_email" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="acra.syslog.enable"
+            android:summaryOff="@string/pref_acra_syslog_disabled"
+            android:summaryOn="@string/pref_acra_syslog_enabled"
+            android:title="@string/pref_acra_syslog" />
     </PreferenceCategory>
-    
+
 </PreferenceScreen>

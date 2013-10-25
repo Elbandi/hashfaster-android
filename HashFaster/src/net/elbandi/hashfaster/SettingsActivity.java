@@ -2,50 +2,39 @@ package net.elbandi.hashfaster;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.preference.EditTextPreference;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import net.elbandi.hashfaster.R;
-import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.qr.IntentIntegrator;
 import net.elbandi.hashfaster.qr.IntentResult;
 
-public class SettingsActivity extends SherlockActivity {
+public class SettingsActivity extends SherlockPreferenceActivity {
 
-	Button mSave, mQRScan;
-	EditText mAPIKey;
+	EditTextPreference mAPIKey;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		setContentView(R.layout.activity_settings);
+		PreferenceManager preferenceManager = getPreferenceManager();
+		preferenceManager.setSharedPreferencesName(getApplicationContext().getPackageName());
+		preferenceManager.setSharedPreferencesMode(MODE_PRIVATE);
+		addPreferencesFromResource(R.xml.preferences);
 
-		mQRScan = (Button) findViewById(R.id.btn_qr_scan);
-		mSave = (Button) findViewById(R.id.btn_save);
-		mAPIKey = (EditText) findViewById(R.id.et_api);
-
-		mAPIKey.setText(PrefManager.getAPIKey(getApplicationContext()));
-
-		mSave.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				PrefManager.setAPIKey(getApplicationContext(), mAPIKey.getText().toString());
-				Toast.makeText(getApplicationContext(), "Saved your API key", Toast.LENGTH_LONG).show();
-			}
-		});
-
-		mQRScan.setOnClickListener(new OnClickListener() {
+		mAPIKey = (EditTextPreference) findPreference(getString(R.string.settings_api_key));
+		Preference mQRScan = (Preference) findPreference(getString(R.string.settings_qr_scan));
+		mQRScan.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public boolean onPreferenceClick(Preference v) {
 				IntentIntegrator integrator = new IntentIntegrator(SettingsActivity.this);
 				integrator.initiateScan();
+				return true;
 			}
 		});
 	}

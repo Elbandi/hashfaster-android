@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_api_key">API_KEY</string>
+    <string name="settings_qr_scan">QR_SCAN</string>
+    <string name="settings_home_tutorial">HOME_TUTORIAL</string>
+    <string name="settings_sync_frequency">SYNC_FREQUENCY</string>
+</resources>

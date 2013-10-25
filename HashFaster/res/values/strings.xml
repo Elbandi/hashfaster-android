@@ -4,7 +4,6 @@
     <string name="app_name">HashFaster\'s Litecoin Pool</string>
     <string name="hello_world">Hello world!</string>
 
-    
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
@@ -33,7 +32,23 @@
 
     <string name="worker_name">Worker Name:</string>
     <string name="worker_hashrate">Hashrate:</string>
-        
+
+    <string name="pref_user_authorization">Authorization</string>
+    <string name="pref_update_setting">Update Settings</string>
+    <string name="pref_sync_frequency">Sync frequency</string>
+    <string name="pref_sync_frequency_summary">Set the sync frequency</string>
+    <string name="pref_api_key">Enter your API Key</string>
+    <string name="pref_api_key_summary">Found in My Account/Edit Account</string>
+
+    <string name="pref_error_reporting">Error Reporting</string>
+    <string name="pref_send_report">Send crash reports</string>
+    <string name="pref_send_report_summary">Helps to fix bugs</string>
+    <string name="pref_acra_syslog">Syslog</string>
+    <string name="pref_acra_syslog_enabled">Will be included</string>
+    <string name="pref_acra_syslog_disabled">Will not be included</string>
+    <string name="pref_acra_user_email">Reply Email</string>
+    <string name="pref_acra_user_email_summary">Optional email address for follow ups</string>
+
     <string name="crash_toast_text">Ooooops ! I crashed, but a report has been sent to my developer to help fix the issue !</string>
     <string name="crash_dialog_title">CrashTest has crashed</string>
     <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop. Please help us fix this by sending us error data, all you have to do is click OK.</string>

@@ -18,7 +18,13 @@ import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.models.Pool;
 import net.elbandi.hashfaster.tasks.GetDataTask;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
@@ -46,7 +52,13 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 
 	MinerListViewAdapter mLVAdapter;
 
+	GetDataTask dataUpdateTask = null;
 	RefreshListener refreshListener;
+
+	private static final String ALARM_ACTION_NAME = "net.elbandi.hashfaster.ALARM";
+	BroadcastReceiver refreshReceiver;
+	PendingIntent pendingIntent;
+	AlarmManager alarmManager;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -86,12 +98,11 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 		setUpTutorial();
 		setUpSlidingDrawer();
 		setUpListeners();
-		updateView();
+		setUpAlarm();
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		if (PrefManager.getAPIKey(this).isEmpty()) {
 			mError.setVisibility(View.VISIBLE);
@@ -101,6 +112,27 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 			mError.setVisibility(View.GONE);
 			mPullToRefreshAttacher.setEnabled(true);
 		}
+		int freq = PrefManager.getSyncFrequency(this);
+		if (freq > 0) {
+			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), freq * 1000, pendingIntent);
+			// AlarmManager.ELAPSED_REALTIME_WAKEUP
+			// AlarmManager.RTC
+		} else {
+			alarmManager.cancel(pendingIntent);
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		alarmManager.cancel(pendingIntent);
+	}
+
+	@Override
+	protected void onDestroy() {
+		alarmManager.cancel(pendingIntent);
+		unregisterReceiver(refreshReceiver);
+		super.onDestroy();
 	}
 
 	@Override
@@ -121,7 +153,7 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 			updateView();
 			break;
 		case R.id.action_settings:
-			intent = new Intent(this, PreferenceActivity.class);
+			intent = new Intent(this, SettingsActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.action_about:
@@ -136,10 +168,16 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 	 * Updating view with new data
 	 */
 	public void updateView() {
-		if (!PrefManager.getAPIKey(this).isEmpty()) {
+		if (!PrefManager.getAPIKey(this).isEmpty() && (dataUpdateTask == null || dataUpdateTask.getStatus() != Status.RUNNING)) {
 			mPullToRefreshAttacher.setRefreshing(true);
-			new GetDataTask(this, refreshListener).execute();
+			dataUpdateTask = new GetDataTask(this, refreshListener);
+			dataUpdateTask.execute();
 		}
+	}
+
+	@Override
+	public void onRefreshStarted(View view) {
+		updateView();
 	}
 
 	/**
@@ -153,7 +191,7 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 			private String FormatDate(long time) {
 				long msec = time * 1000;
 				cal.setTimeInMillis(msec);
-				if ( time < 60) {
+				if (time < 60) {
 					return DateFormat.format("ss", cal).toString();
 				} else if (time < 3600) { // 60*60
 					return DateFormat.format("mm 'minutes' ss 'seconds", cal).toString();
@@ -213,19 +251,25 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 		mLVAdapter = new MinerListViewAdapter(this);
 		lvWorkers.setAdapter(mLVAdapter);
 	}
-	
-	private void setUpTutorial()
-	{
-		if (!PrefManager.getSeenHomeTutorial(this))
-		{
+
+	private void setUpTutorial() {
+		if (!PrefManager.getSeenHomeTutorial(this)) {
 			HomeTutorialDialog dialog = new HomeTutorialDialog(this);
 			dialog.show();
 		}
 	}
 
-	@Override
-	public void onRefreshStarted(View view) {
-		updateView();
+	private void setUpAlarm() {
+		refreshReceiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				updateView();
+			}
+		};
+		registerReceiver(refreshReceiver, new IntentFilter(ALARM_ACTION_NAME));
+		pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, new Intent(ALARM_ACTION_NAME), PendingIntent.FLAG_CANCEL_CURRENT);
+		alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 	}
 
 }
