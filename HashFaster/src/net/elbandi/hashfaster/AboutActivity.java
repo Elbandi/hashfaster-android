@@ -44,7 +44,7 @@ public class AboutActivity extends SherlockActivity {
 					android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", stringYouExtracted);
 					clipboard.setPrimaryClip(clip);
 				}
-				Toast.makeText(getApplicationContext(), "Copied Donation Link!", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.copied_donation_link), Toast.LENGTH_LONG).show();
 
 			}
 		});

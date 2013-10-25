@@ -23,7 +23,7 @@
                 android:id="@+id/tv_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ERROR: Check Internet!"
+                android:text="@string/error_nointernet"
                 android:textColor="#FF0000"
                 android:textSize="16sp"
                 android:visibility="gone" />
@@ -32,7 +32,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username" />
+                android:text="@string/username" />
 
             <TextView
                 android:id="@+id/tv_username"
@@ -44,7 +44,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total Hashrate" />
+                android:text="@string/total_hashrate" />
 
             <TextView
                 android:id="@+id/tv_total_hashrate"
@@ -56,7 +56,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Round Shares" />
+                android:text="@string/round_shares" />
 
             <TextView
                 android:id="@+id/tv_round_shares"
@@ -68,7 +68,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Confirmed balance" />
+                android:text="@string/balance_confirmed" />
 
             <TextView
                 android:id="@+id/tv_balance_confirmed"
@@ -80,7 +80,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pending" />
+                android:text="@string/balance_pending" />
 
             <TextView
                 android:id="@+id/tv_balance_pending"
@@ -99,13 +99,13 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="6dp"
                 android:paddingTop="10dp"
-                android:text="Pool Stats" />
+                android:text="@string/pool_stats" />
 
             <TextView
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total Hashrate" />
+                android:text="@string/total_hashrate" />
 
             <TextView
                 android:id="@+id/tv_pool_total_hashrate"
@@ -117,7 +117,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pool Efficiency" />
+                android:text="@string/pool_efficiency" />
 
             <TextView
                 android:id="@+id/tv_pool_efficiency"
@@ -129,7 +129,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Current Active Workers" />
+                android:text="@string/pool_active_workers" />
 
             <TextView
                 android:id="@+id/tv_pool_active_workers"
@@ -141,7 +141,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Next Network Block" />
+                android:text="@string/pool_nextnetworkblock" />
 
             <TextView
                 android:id="@+id/tv_pool_nextnetworkblock"
@@ -149,12 +149,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-
             <TextView
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Last Block Found" />
+                android:text="@string/pool_lastblock" />
 
             <TextView
                 android:id="@+id/tv_pool_lastblock"
@@ -166,7 +165,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Current Difficulty" />
+                android:text="@string/pool_networkdiff" />
 
             <TextView
                 android:id="@+id/tv_pool_networkdiff"
@@ -178,7 +177,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Est. Avg. Time per Round" />
+                android:text="@string/pool_esttime" />
 
             <TextView
                 android:id="@+id/tv_pool_esttime"
@@ -190,7 +189,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Est. Shares this Round" />
+                android:text="@string/pool_estshares" />
 
             <TextView
                 android:id="@+id/tv_pool_estshares"
@@ -202,7 +201,7 @@
                 style="@style/ViewPagerHeaderSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time Since Last Block" />
+                android:text="@string/pool_timesincelast" />
 
             <TextView
                 android:id="@+id/tv_pool_timesincelast"
@@ -232,7 +231,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Last Update: " />
+            android:text="@string/last_update" />
 
         <TextView
             android:id="@+id/tv_last_update"
