@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -36,8 +35,6 @@ public class SettingsActivity extends SherlockActivity {
 		mSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				String APIKey = mAPIKey.getText().toString();
 				PrefManager.setAPIKey(getApplicationContext(), mAPIKey.getText().toString());
 				Toast.makeText(getApplicationContext(), "Saved your API key", Toast.LENGTH_LONG).show();
 			}

@@ -28,6 +28,7 @@ public class AboutActivity extends SherlockActivity {
 		mAddress = (TextView) findViewById(R.id.tv_address);
 
 		mDonate.setOnClickListener(new OnClickListener() {
+			@SuppressWarnings("deprecation")
 			@SuppressLint("NewApi")
 			@Override
 			public void onClick(View v) {

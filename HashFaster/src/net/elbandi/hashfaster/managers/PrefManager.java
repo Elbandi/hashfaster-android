@@ -39,6 +39,7 @@ public class PrefManager {
 		editor.commit();
 	}
 
+	@SuppressWarnings("unused")
 	private static void setPreference(Context context, String key, int value) {
 		Editor editor = getSharedPreferences(context).edit();
 		editor.putInt(key, value);
@@ -55,6 +56,7 @@ public class PrefManager {
 		return getSharedPreferences(context).getString(key, defaultValue);
 	}
 
+	@SuppressWarnings("unused")
 	private static int getPreference(Context context, String key, int defaultValue) {
 		return getSharedPreferences(context).getInt(key, defaultValue);
 	}
