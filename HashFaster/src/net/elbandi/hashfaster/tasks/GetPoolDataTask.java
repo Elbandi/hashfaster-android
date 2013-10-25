@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import net.elbandi.hashfaster.adapters.MinerViewPagerAdapter;
 import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.MinerManager;
 import net.elbandi.hashfaster.managers.PrefManager;
@@ -37,7 +36,6 @@ public class GetPoolDataTask extends AsyncTask<String, Void, JSONObject> {
 	InputStream is = null;
 	Context mContext;
 	RefreshListener mListener;
-	MinerViewPagerAdapter mAdapter;
 
 	public GetPoolDataTask(Context context, RefreshListener listener) {
 		mContext = context;
