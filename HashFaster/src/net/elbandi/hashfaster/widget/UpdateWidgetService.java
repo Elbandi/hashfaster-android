@@ -66,7 +66,7 @@ public class UpdateWidgetService extends Service {
 					appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
 				}
-				Toast.makeText(getApplicationContext(), "HashFaster: Updated stats", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), R.string.widget_updated_stats, Toast.LENGTH_LONG).show();
 			};
 		};
 

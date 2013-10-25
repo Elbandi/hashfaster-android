@@ -106,7 +106,7 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 		super.onResume();
 		if (PrefManager.getAPIKey(this).isEmpty()) {
 			mError.setVisibility(View.VISIBLE);
-			mError.setText("ERROR: Empty API Key, enter one in settings!");
+			mError.setText(R.string.error_emptykey);
 			mPullToRefreshAttacher.setEnabled(false);
 		} else {
 			mError.setVisibility(View.GONE);
@@ -184,6 +184,11 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 	 * Setting up listeners
 	 */
 	private void setUpListeners() {
+		final String seconds = getResources().getString(R.string.dateformat_seconds);
+		final String minutes = getResources().getString(R.string.dateformat_minutes);
+		final String hours = getResources().getString(R.string.dateformat_hours);
+		final String days = getResources().getString(R.string.dateformat_days);
+		final String lastupdate = getResources().getString(R.string.dateformat_lastupdate);
 		refreshListener = new RefreshListener() {
 
 			Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
@@ -192,13 +197,13 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 				long msec = time * 1000;
 				cal.setTimeInMillis(msec);
 				if (time < 60) {
-					return DateFormat.format("ss", cal).toString();
+					return DateFormat.format(seconds, cal).toString();
 				} else if (time < 3600) { // 60*60
-					return DateFormat.format("mm 'minutes' ss 'seconds", cal).toString();
+					return DateFormat.format(minutes, cal).toString();
 				} else if (time < 86400) { // 24*60*60
-					return DateFormat.format("hh 'hours' mm 'minutes' ss 'seconds", cal).toString();
+					return DateFormat.format(hours, cal).toString();
 				} else {
-					return DateFormat.format("D 'days' hh 'hours' mm 'minutes' ss 'seconds", cal).toString();
+					return DateFormat.format(days, cal).toString();
 				}
 			}
 
@@ -228,7 +233,7 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 
 				long dtMili = System.currentTimeMillis();
 				Date d = new Date(dtMili);
-				CharSequence s = DateFormat.format("hh:mm:ss, EEEE, MMMM d, yyyy ", d.getTime());
+				CharSequence s = DateFormat.format(lastupdate, d.getTime());
 				// textView is the TextView view that should display it
 				mLastUpdate.setText(s);
 

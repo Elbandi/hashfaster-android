@@ -9,6 +9,7 @@
     <string name="action_about">About</string>
     <string name="swipe_to_workers">Swipe right to see your workers!</string>
     <string name="error_nointernet">ERROR: Check Internet!</string>
+    <string name="error_emptykey">ERROR: Empty API Key, enter one in settings!</string>
     <string name="username">Username</string>
     <string name="total_hashrate">Total Hashrate</string>
     <string name="round_shares">Round Shares</string>
@@ -25,6 +26,11 @@
     <string name="pool_timesincelast">Time Since Last Block</string>
     <string name="last_update">Last Update:</string>
     <string name="about_title">Quick and dirty ltc.hashfaster.com checker\n(based on Ninchuu\'s WeMineLTC checker)</string>
+    <string name="dateformat_lastupdate">hh:mm:ss, EEEE, MMMM d, yyyy</string>
+    <string name="dateformat_seconds">ss \'seconds\'</string>
+    <string name="dateformat_minutes">mm \'minutes\' ss \'seconds\'</string>
+    <string name="dateformat_hours">hh \'hours\' mm \'minutes\' ss \'seconds\'</string>
+    <string name="dateformat_days">D \'days\' hh \'hours\' mm \'minutes\' ss \'seconds\'</string>
 
     <string name="obligatory_donation_link">Obligatory donation link:</string>
     <string name="copy_to_clipboard">Copy to Clipboard</string>
@@ -32,6 +38,8 @@
 
     <string name="worker_name">Worker Name:</string>
     <string name="worker_hashrate">Hashrate:</string>
+
+    <string name="widget_updated_stats">HashFaster: Updated stats</string>
 
     <string name="pref_user_authorization">Authorization</string>
     <string name="pref_update_setting">Update Settings</string>
