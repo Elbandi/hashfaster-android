@@ -1,3 +1,6 @@
+include ':Libraries:ActionBar-PullToRefresh:library'
+project(':Libraries:ActionBar-PullToRefresh:library').buildFileName = '../../ActionBar-PullToRefresh.build.gradle'
+project(':Libraries:ActionBar-PullToRefresh').buildFileName = 'donotuse'
 include ':Libraries:ActionBarSherlock:actionbarsherlock'
 project(':Libraries:ActionBarSherlock').buildFileName = 'donotuse'
 include ':Libraries:SlidingMenu:library'

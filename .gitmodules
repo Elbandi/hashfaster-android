@@ -4,3 +4,6 @@
 [submodule "Libraries/SlidingMenu"]
 	path = Libraries/SlidingMenu
 	url = https://github.com/jfeinstein10/SlidingMenu.git
+[submodule "Libraries/ActionBar-PullToRefresh"]
+	path = Libraries/ActionBar-PullToRefresh
+	url = https://github.com/chrisbanes/ActionBar-PullToRefresh.git

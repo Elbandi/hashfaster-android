@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+
 import net.elbandi.hashfaster.R;
 import net.elbandi.hashfaster.adapters.MinerListViewAdapter;
 import net.elbandi.hashfaster.controls.HomeTutorialDialog;
@@ -21,18 +23,21 @@ import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-public class MainActivity extends CustomSlidingActivity {
+public class MainActivity extends CustomSlidingActivity implements PullToRefreshAttacher.OnRefreshListener {
+	private PullToRefreshAttacher mPullToRefreshAttacher;
 
 	TextView mUsername, mHashrate, mRoundShares,
 	mPoolHashrate, mPoolEfficiency, mPoolActiveWorkers, mPoolNextBlock, mPoolLastBlock, mPoolNetworkDiff, mPoolRoundEstimate, mPoolRoundShares, mPoolTimeLastBlock, 
 	mTimestamp, mLastUpdate;
 	TextView mError;
+	ScrollView mRefresh;
 
 	ViewPager vpWorkers;
 	ListView lvWorkers;
@@ -64,6 +69,12 @@ public class MainActivity extends CustomSlidingActivity {
 
 		mLastUpdate = (TextView) findViewById(R.id.tv_last_update);
 		mError = (TextView) findViewById(R.id.tv_error);
+		mRefresh = (ScrollView) findViewById(R.id.information_scrollview);
+
+		// Create a PullToRefreshAttacher instance
+		mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
+		// Add the Refreshable View and provide the refresh listener
+		mPullToRefreshAttacher.addRefreshableView(mRefresh, this);
 
 		/*
 		 * Initialize
@@ -102,6 +113,7 @@ public class MainActivity extends CustomSlidingActivity {
 			toggle();
 			break;
 		case R.id.action_refresh:
+			mPullToRefreshAttacher.setRefreshing(true);
 			updateView();
 			break;
 		case R.id.action_settings:
@@ -172,6 +184,8 @@ public class MainActivity extends CustomSlidingActivity {
 				// textView is the TextView view that should display it
 				mLastUpdate.setText(s);
 
+				// Notify PullToRefreshAttacher that the refresh has finished
+				mPullToRefreshAttacher.setRefreshComplete();
 			}
 		};
 	}
@@ -197,6 +211,11 @@ public class MainActivity extends CustomSlidingActivity {
 			HomeTutorialDialog dialog = new HomeTutorialDialog(this);
 			dialog.show();
 		}
+	}
+
+	@Override
+	public void onRefreshStarted(View view) {
+		updateView();
 	}
 
 }
