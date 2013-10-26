@@ -17,6 +17,7 @@ import net.elbandi.hashfaster.models.Balance;
 import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.models.Pool;
 import net.elbandi.hashfaster.tasks.GetDataTask;
+import net.elbandi.hashfaster.utils.NetworkUtils;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -59,6 +60,7 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 	BroadcastReceiver refreshReceiver;
 	PendingIntent pendingIntent;
 	AlarmManager alarmManager;
+	MenuItem refreshMenuItem;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -104,21 +106,13 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (PrefManager.getAPIKey(this).isEmpty()) {
-			mError.setVisibility(View.VISIBLE);
-			mError.setText(R.string.error_emptykey);
-			mPullToRefreshAttacher.setEnabled(false);
-		} else {
-			mError.setVisibility(View.GONE);
-			mPullToRefreshAttacher.setEnabled(true);
-		}
-		int freq = PrefManager.getSyncFrequency(this);
-		if (freq > 0) {
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), freq * 1000, pendingIntent);
-			// AlarmManager.ELAPSED_REALTIME_WAKEUP
-			// AlarmManager.RTC
-		} else {
-			alarmManager.cancel(pendingIntent);
+		if (!setupError(PrefManager.getAPIKey(this).isEmpty(), R.string.error_emptykey)) {
+			int freq = PrefManager.getSyncFrequency(this);
+			if (freq > 0) {
+				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), freq * 1000, pendingIntent);
+				// AlarmManager.ELAPSED_REALTIME_WAKEUP
+				// AlarmManager.RTC
+			}
 		}
 	}
 
@@ -138,6 +132,8 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.activity_home, menu);
+		refreshMenuItem = menu.findItem(R.id.action_refresh);
+		refreshMenuItem.setEnabled(mPullToRefreshAttacher.isEnabled());
 		return true;
 	}
 
@@ -150,7 +146,7 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 			toggle();
 			break;
 		case R.id.action_refresh:
-			updateView();
+			updateView(true);
 			break;
 		case R.id.action_settings:
 			intent = new Intent(this, SettingsActivity.class);
@@ -164,20 +160,46 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 		return true;
 	}
 
+	private void setErrorLabel(int resId) {
+		mError.setText(resId);
+		mError.setVisibility(View.VISIBLE);
+	}
+
+	private boolean setupError(boolean error, int resId) {
+		if (refreshMenuItem != null)
+			refreshMenuItem.setEnabled(!error);
+		mPullToRefreshAttacher.setEnabled(!error);
+		mError.setVisibility(error ? View.VISIBLE : View.GONE);
+		if (error && resId > 0)
+			setErrorLabel(resId);
+		return error;
+	}
+
 	/**
 	 * Updating view with new data
 	 */
-	public void updateView() {
-		if (!PrefManager.getAPIKey(this).isEmpty() && (dataUpdateTask == null || dataUpdateTask.getStatus() != Status.RUNNING)) {
-			mPullToRefreshAttacher.setRefreshing(true);
-			dataUpdateTask = new GetDataTask(this, refreshListener);
-			dataUpdateTask.execute();
+	public void updateView(boolean resetalarm) {
+		if (NetworkUtils.isOn(this)) {
+			if (dataUpdateTask == null || dataUpdateTask.getStatus() != Status.RUNNING) {
+				mPullToRefreshAttacher.setRefreshing(true);
+				dataUpdateTask = new GetDataTask(this, refreshListener);
+				dataUpdateTask.execute();
+			}
+		} else {
+			setErrorLabel(R.string.error_nointernet);
+		}
+		if (resetalarm) {
+			int freq = PrefManager.getSyncFrequency(this) * 1000;
+			if (freq > 0) {
+				alarmManager.cancel(pendingIntent);
+				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + freq, freq, pendingIntent);
+			}
 		}
 	}
 
 	@Override
 	public void onRefreshStarted(View view) {
-		updateView();
+		updateView(true);
 	}
 
 	/**
@@ -269,7 +291,7 @@ public class MainActivity extends CustomSlidingActivity implements PullToRefresh
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				updateView();
+				updateView(false);
 			}
 		};
 		registerReceiver(refreshReceiver, new IntentFilter(ALARM_ACTION_NAME));
