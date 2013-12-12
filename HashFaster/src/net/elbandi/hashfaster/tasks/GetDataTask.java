@@ -33,14 +33,14 @@ public class GetDataTask extends BaseDataTask {
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		try {
-			if (result.length() == 0)
-				return;
-			MinerManager manager = MinerManager.getInstance();
-			Miner miner = MinerParser.parseMiner(result);
-			miner.setWorkers(MinerParser.parseWorkers(result));
-			miner.setBalance(MinerParser.parseBalance(result));
-			manager.setMiner(miner);
-			manager.setPool(MinerParser.parsePool(result));
+			if (result.length() != 0) {
+				MinerManager manager = MinerManager.getInstance();
+				Miner miner = MinerParser.parseMiner(result);
+				miner.setWorkers(MinerParser.parseWorkers(result));
+				miner.setBalance(MinerParser.parseBalance(result));
+				manager.setMiner(miner);
+				manager.setPool(MinerParser.parsePool(result));
+			}
 		} catch (JSONException e) {
 			setError("Error: Invalid API Key!");
 			e.printStackTrace();

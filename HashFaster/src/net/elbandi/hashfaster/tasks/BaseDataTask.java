@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
+import net.elbandi.hashfaster.ApiKeyException;
 import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.utils.StringUtils;
@@ -50,6 +51,7 @@ public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
 			is = httpEntity.getContent();
 
 		} catch (UnsupportedEncodingException e) {
+			setError("Invalid response format");
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
 			setError("Error: No connection, check your internet!");
@@ -59,15 +61,23 @@ public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
 			e.printStackTrace();
 		}
 
-		try {
-			JSONString = StringUtils.readAll(is, "UTF-8");
-			Log.d("HASHFASTER", "DoRequest: JSONString is:\n" + JSONString);
-			if (JSONString != null) {
-				while (JSONString.length() > 0 && JSONString.charAt(0) != '{') JSONString = JSONString.substring(1);
+		if (is != null) {
+			try {
+				JSONString = StringUtils.readAll(is, "UTF-8");
+				Log.d("HASHFASTER", "DoRequest: JSONString is:\n" + JSONString);
+				if ("Access denied".equals(JSONString)) {
+					throw new ApiKeyException();
+				}
+				if (JSONString != null) {
+					while (JSONString.length() > 0 && JSONString.charAt(0) != '{')
+						JSONString = JSONString.substring(1);
+				}
+				result = new JSONObject(JSONString);
+			} catch (ApiKeyException e) {
+				setError("Error: Invalid API Key!");
+			} catch (Exception e) {
+				setError("Invalid response format");
 			}
-			result = new JSONObject(JSONString);
-		} catch (Exception e) {
-			setError("Error: Invalid API Key!");
 		}
 
 		Log.v("HASHFASTER", "DoRequest: result:\n" + result.toString());
