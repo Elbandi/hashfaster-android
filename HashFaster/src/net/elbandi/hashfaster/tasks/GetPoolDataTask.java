@@ -16,8 +16,8 @@ import android.content.Context;
  */
 public class GetPoolDataTask extends BaseDataTask {
 
-	public GetPoolDataTask(Context context, RefreshListener listener) {
-		super(context, listener);
+	public GetPoolDataTask(Context context, RefreshListener listener, String url, String key) {
+		super(context, listener, url, key);
 	}
 
 	@Override

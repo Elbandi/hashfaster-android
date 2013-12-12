@@ -1,7 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="@string/pref_user_authorization" >
-        <EditTextPreference
+        <net.elbandi.hashfaster.controls.MyEditTextPreference
             android:key="@string/settings_api_key"
             android:summary="@string/pref_api_key_summary"
             android:title="@string/pref_api_key" />

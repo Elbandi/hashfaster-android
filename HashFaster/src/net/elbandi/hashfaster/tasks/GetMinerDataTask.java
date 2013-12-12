@@ -16,8 +16,8 @@ import android.content.Context;
  */
 public class GetMinerDataTask extends BaseDataTask {
 
-	private GetMinerDataTask(Context context, RefreshListener listener) {
-		super(context, listener);
+	private GetMinerDataTask(Context context, RefreshListener listener, String url, String key) {
+		super(context, listener, url, key);
 	}
 
 	@Override

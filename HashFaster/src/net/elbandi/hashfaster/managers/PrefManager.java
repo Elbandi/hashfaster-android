@@ -15,8 +15,21 @@ public class PrefManager {
 	 * Application's preferences
 	 */
 
-	public static String getAPIKey(Context context) {
-		return getPreference(context, R.string.settings_api_key, "");
+	public static void CheckAPIKey(Context context) {
+		SharedPreferences prefs = getSharedPreferences(context);
+		String key = context.getString(R.string.settings_api_key);
+		String apikey = prefs.getString(key, null);
+		if (apikey != null) {
+			Editor editor = prefs.edit();
+			editor.putString(key + "_ltc", apikey);
+			editor.remove(key);
+			editor.commit();
+		}
+	}
+
+	public static String getAPIKey(Context context, String coin) {
+		coin = context.getString(R.string.settings_api_key) + "_" + coin;
+		return getPreference(context, coin, "");
 	}
 
 	public static Boolean getSeenHomeTutorial(Context context) {
@@ -75,7 +88,6 @@ public class PrefManager {
 		editor.commit();
 	}
 
-	@SuppressWarnings("unused")
 	private static String getPreference(Context context, String key, String defaultValue) {
 		return getSharedPreferences(context).getString(key, defaultValue);
 	}

@@ -70,7 +70,7 @@ public class UpdateWidgetService extends Service {
 			};
 		};
 
-		new GetDataTask(ctx, refreshListener).execute();
+		new GetDataTask(ctx, refreshListener, "http://ltc.hashfaster.com", "ltc").execute();
 		// stopSelf();
 	}
 

@@ -16,8 +16,8 @@ import android.content.Context;
  */
 public class GetWorkerDataTask extends BaseDataTask {
 
-	public GetWorkerDataTask(Context context, RefreshListener listener) {
-		super(context, listener);
+	public GetWorkerDataTask(Context context, RefreshListener listener, String url, String key) {
+		super(context, listener, url, key);
 	}
 
 	@Override

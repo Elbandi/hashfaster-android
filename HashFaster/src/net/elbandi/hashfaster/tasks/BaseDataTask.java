@@ -20,14 +20,18 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
-	private static final String BASEURL = "http://ltc.hashfaster.com/index.php?page=api&action=%s&api_key=%s";
+	private static final String BASEURL = "%s/index.php?page=api&action=%s&api_key=%s";
 
 	Context mContext;
 	RefreshListener mListener;
+	String mUrl;
+	String mKey;
 
-	public BaseDataTask(Context context, RefreshListener listener) {
+	public BaseDataTask(Context context, RefreshListener listener, String url, String key) {
 		mContext = context;
 		mListener = listener;
+		mUrl = url;
+		mKey = key;
 	}
 
 	protected JSONObject DoRequest(String action) {
@@ -36,7 +40,7 @@ public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
 		JSONObject result = new JSONObject();
 
 		try {
-			String mURL = String.format(BASEURL, action, PrefManager.getAPIKey(mContext));
+			String mURL = String.format(BASEURL, mUrl, action, PrefManager.getAPIKey(mContext, mKey));
 			Log.d("HASHFASTER", "DoRequest: url is + " + mURL);
 
 			HttpGet httpPost = new HttpGet(mURL);

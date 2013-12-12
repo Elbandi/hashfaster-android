@@ -2,19 +2,20 @@ package net.elbandi.hashfaster;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
+
 import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.controls.MyEditTextPreference;
 import net.elbandi.hashfaster.qr.IntentIntegrator;
 import net.elbandi.hashfaster.qr.IntentResult;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 
-	EditTextPreference mAPIKey;
+	MyEditTextPreference mAPIKey;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -26,7 +27,11 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		preferenceManager.setSharedPreferencesMode(MODE_PRIVATE);
 		addPreferencesFromResource(R.xml.preferences);
 
-		mAPIKey = (EditTextPreference) findPreference(getString(R.string.settings_api_key));
+		Intent intent = getIntent();
+		String apikey = intent.getStringExtra(DashboardFragment.ARG_APIKEY);
+		mAPIKey = (MyEditTextPreference) findPreference(getString(R.string.settings_api_key));
+		mAPIKey.setKey(getString(R.string.settings_api_key) + "_" + apikey);
+		mAPIKey.reloadInitialValue();
 		Preference mQRScan = (Preference) findPreference(getString(R.string.settings_qr_scan));
 		mQRScan.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 

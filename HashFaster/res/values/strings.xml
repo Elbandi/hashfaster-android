@@ -12,6 +12,17 @@
     <string name="actionbar_refreshing">Refreshing…</string>
     <string name="actionbar_release">Release</string>
 
+    <string name="title_activity_ltc">Litecoin</string>
+    <string name="title_activity_ftc">Feathercoin</string>
+    <string name="title_activity_fst">Fastcoin</string>
+    <string name="title_activity_wdc">Worldcoin</string>
+    <string name="title_activity_tag">Tagcoin</string>
+    <string name="title_activity_gld">Goldcoin</string>
+    <string name="title_activity_anc">AnonCoin</string>
+    <string name="title_activity_sbc">StableCoin</string>
+
+    <string name="subtitle_activity_ltc"></string>
+
     <string name="swipe_to_workers">Swipe right to see your workers!</string>
     <string name="error_nointernet">ERROR: Check Internet!</string>
     <string name="error_emptykey">ERROR: Empty API Key, enter one in settings!</string>

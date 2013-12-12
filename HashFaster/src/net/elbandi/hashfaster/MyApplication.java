@@ -1,5 +1,6 @@
 package net.elbandi.hashfaster;
 
+import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.managers.ReportManager;
 
 import org.acra.ReportingInteractionMode;
@@ -24,6 +25,7 @@ public class MyApplication extends Application {
 	public void onCreate() {
 		// The following line triggers the initialization of ACRA
 		super.onCreate();
+		PrefManager.CheckAPIKey(this);
 		ReportManager.init(this);
 	}
 }

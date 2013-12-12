@@ -4,9 +4,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-import net.elbandi.hashfaster.adapters.MinerListViewAdapter;
 import net.elbandi.hashfaster.controls.HomeTutorialDialog;
 import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.MinerManager;
@@ -18,7 +16,6 @@ import net.elbandi.hashfaster.tasks.GetDataTask;
 import net.elbandi.hashfaster.utils.NetworkUtils;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -30,7 +27,6 @@ import android.os.AsyncTask.Status;
 import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -40,8 +36,12 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class DashboardFragment extends SherlockFragment implements PullToRefreshAttacher.OnRefreshListener {
+    public static final String ARG_URL = "url";
+    public static final String ARG_APIKEY = "apikey";
     private PullToRefreshAttacher mPullToRefreshAttacher;
     
+    String url;
+    String apikey;
     TextView mUsername, mHashrate, mRoundShares,
         mPoolHashrate, mPoolEfficiency, mPoolActiveWorkers, mPoolNextBlock, mPoolLastBlock, mPoolNetworkDiff, mPoolRoundEstimate, mPoolRoundShares, mPoolTimeLastBlock,
         mBalanceConfirmed, mBalanceUnconfirmed,
@@ -64,6 +64,8 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        url = getArguments().getString(ARG_URL);
+        apikey = getArguments().getString(ARG_APIKEY);
     }
     
     public View onCreateView(android.view.LayoutInflater inflater, android.view.ViewGroup container, Bundle savedInstanceState) {
@@ -108,7 +110,7 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
     @Override
     public void onResume() {
         super.onResume();
-        if (!setupError(PrefManager.getAPIKey(getActivity()).isEmpty(), R.string.error_emptykey)) {
+        if (!setupError(PrefManager.getAPIKey(getActivity(), apikey).isEmpty(), R.string.error_emptykey)) {
             int freq = PrefManager.getSyncFrequency(getActivity());
             if (freq > 0) {
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), freq * 1000, pendingIntent);
@@ -141,7 +143,6 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // This uses the imported MenuItem from ActionBarSherlock
-        item.toString();
         Intent intent;
         switch (item.getItemId()) {
         case android.R.id.home:
@@ -152,6 +153,7 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
             break;
         case R.id.action_settings:
             intent = new Intent(getActivity(), SettingsActivity.class);
+            intent.putExtra(ARG_APIKEY, apikey);
             startActivity(intent);
             break;
         case R.id.action_about:
@@ -184,7 +186,7 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
         if (NetworkUtils.isOn(getActivity())) {
             if (dataUpdateTask == null || dataUpdateTask.getStatus() != Status.RUNNING) {
                 mPullToRefreshAttacher.setRefreshing(true);
-                dataUpdateTask = new GetDataTask(getActivity(), refreshListener);
+                dataUpdateTask = new GetDataTask(getActivity(), refreshListener, url, apikey);
                 dataUpdateTask.execute();
             }
         } else {

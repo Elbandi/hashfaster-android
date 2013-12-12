@@ -3,17 +3,20 @@ package net.elbandi.hashfaster;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import net.elbandi.hashfaster.R;
 import net.elbandi.hashfaster.adapters.MinerListViewAdapter;
+import net.elbandi.hashfaster.adapters.NavigationListAdapter;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class MainActivity extends CustomSlidingActivity implements ActionBar.OnNavigationListener {
     private PullToRefreshAttacher mPullToRefreshAttacher;
 
@@ -25,6 +28,11 @@ public class MainActivity extends CustomSlidingActivity implements ActionBar.OnN
     ListView lvWorkers;
 
     MinerListViewAdapter mLVAdapter;
+    private TypedArray pools_url;
+    private TypedArray logos;
+    private TypedArray apikeys;
+    private TypedArray titles;
+    private TypedArray subtitles;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,16 +53,28 @@ public class MainActivity extends CustomSlidingActivity implements ActionBar.OnN
 //        ArrayAdapter<CharSequence> list = ArrayAdapter.createFromResource(context, R.array.locations, R.layout.sherlock_spinner_item);
 //        list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 
+        pools_url = getResources().obtainTypedArray(R.array.pools_url);
+        apikeys = getResources().obtainTypedArray(R.array.pools_key);
+
+        Context    context   = getSupportActionBar().getThemedContext();
+        logos     = getResources().obtainTypedArray(R.array.activity_logos);
+        titles    = getResources().obtainTypedArray(R.array.activity_titles);
+        subtitles = getResources().obtainTypedArray(R.array.activity_subtitles);
+        NavigationListAdapter navigationListApdater = new NavigationListAdapter(context, logos, titles, subtitles);
+
         // Set up the dropdown list navigation in the action bar.
-        actionBar.setListNavigationCallbacks(
-        // Specify a SpinnerAdapter to populate the dropdown list.
-                new ArrayAdapter<String>(getActionBarThemedContextCompat(),
-                        android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
-                                "egy",
-                                "ketto",
-                                "harom",
-                        }), this);
+        actionBar.setListNavigationCallbacks(navigationListApdater, this);
         setUpSlidingDrawer();
+    }
+
+    @Override
+    protected void onDestroy() {
+        pools_url.recycle();
+        apikeys.recycle();
+        logos.recycle();
+        titles.recycle();
+        subtitles.recycle();
+        super.onDestroy();
     }
 
     /**
@@ -92,9 +112,11 @@ public class MainActivity extends CustomSlidingActivity implements ActionBar.OnN
         // container view.
         Fragment fragment = new DashboardFragment();
         Bundle args = new Bundle();
-//        args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+        args.putString(DashboardFragment.ARG_URL, pools_url.getString(position));
+        args.putString(DashboardFragment.ARG_APIKEY, apikeys.getString(position));
         fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        getActionBar().setIcon(logos.getDrawable(position));
         return true;
     }
 

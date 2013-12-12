@@ -16,8 +16,8 @@ import android.content.Context;
  */
 public class GetBalanceDataTask extends BaseDataTask {
 
-	private GetBalanceDataTask(Context context, RefreshListener listener) {
-		super(context, listener);
+	private GetBalanceDataTask(Context context, RefreshListener listener, String url, String key) {
+		super(context, listener, url, key);
 	}
 
 	@Override
