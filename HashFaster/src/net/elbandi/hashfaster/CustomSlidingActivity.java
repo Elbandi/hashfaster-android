@@ -5,12 +5,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivityBase;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivityHelper;
 
-public class CustomSlidingActivity extends SherlockActivity implements SlidingActivityBase {
+public class CustomSlidingActivity extends SherlockFragmentActivity implements SlidingActivityBase {
 
 	private SlidingActivityHelper mHelper;
 
