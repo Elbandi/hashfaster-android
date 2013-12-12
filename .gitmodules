@@ -7,3 +7,6 @@
 [submodule "Libraries/ActionBar-PullToRefresh"]
 	path = Libraries/ActionBar-PullToRefresh
 	url = https://github.com/chrisbanes/ActionBar-PullToRefresh.git
+[submodule "Libraries/Android-ViewPagerIndicator"]
+	path = Libraries/Android-ViewPagerIndicator
+	url = https://github.com/JakeWharton/Android-ViewPagerIndicator.git
