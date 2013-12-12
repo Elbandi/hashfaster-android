@@ -10,6 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 import net.elbandi.hashfaster.R;
 import net.elbandi.hashfaster.controls.MyEditTextPreference;
+import net.elbandi.hashfaster.fragments.DashboardFragment;
 import net.elbandi.hashfaster.qr.IntentIntegrator;
 import net.elbandi.hashfaster.qr.IntentResult;
 

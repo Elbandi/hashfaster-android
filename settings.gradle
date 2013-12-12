@@ -3,7 +3,7 @@ project(':Libraries:ActionBar-PullToRefresh:library').buildFileName = '../../Act
 project(':Libraries:ActionBar-PullToRefresh').buildFileName = 'donotuse'
 include ':Libraries:ActionBarSherlock:actionbarsherlock'
 project(':Libraries:ActionBarSherlock').buildFileName = 'donotuse'
-include ':Libraries:SlidingMenu:library'
-project(':Libraries:SlidingMenu:library').buildFileName = '../../SlidingMenu.build.gradle'
+include ':Libraries:Android-ViewPagerIndicator:library'
+project(':Libraries:Android-ViewPagerIndicator:library').buildFileName = '../../Android-ViewPagerIndicator.build.gradle'
 include ':HashFaster'
 

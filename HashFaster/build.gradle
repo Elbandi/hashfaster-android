@@ -13,7 +13,7 @@ dependencies {
     compile files('libs/acra-4.5.0.jar')
     compile project(':Libraries:ActionBar-PullToRefresh:library')
     compile project(':Libraries:ActionBarSherlock:actionbarsherlock')
-    compile project(':Libraries:SlidingMenu:library')
+    compile project(':Libraries:Android-ViewPagerIndicator:library')
 }
 
 android {

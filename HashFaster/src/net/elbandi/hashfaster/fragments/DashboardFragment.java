@@ -1,10 +1,14 @@
-package net.elbandi.hashfaster;
+package net.elbandi.hashfaster.fragments;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import net.elbandi.hashfaster.AboutActivity;
+import net.elbandi.hashfaster.MainActivity;
+import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.SettingsActivity;
 import net.elbandi.hashfaster.controls.HomeTutorialDialog;
 import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.MinerManager;
@@ -146,7 +150,7 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
         Intent intent;
         switch (item.getItemId()) {
         case android.R.id.home:
-            ((MainActivity)getActivity()).toggle();
+            //((MainActivity)getActivity()).toggle();
             break;
         case R.id.action_refresh:
             updateView(true);
@@ -215,6 +219,7 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
         final String hours = getResources().getString(R.string.dateformat_hours);
         final String days = getResources().getString(R.string.dateformat_days);
         final String lastupdate = getResources().getString(R.string.dateformat_lastupdate);
+        final MainActivity ma = (MainActivity)getActivity();
         refreshListener = new RefreshListener() {
 
             Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
@@ -255,7 +260,7 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
                 mPoolRoundShares.setText(String.valueOf(Math.round(mPool.estshares)));
                 mPoolTimeLastBlock.setText(FormatDate(mPool.timesincelast));
 
-                ((MainActivity)getActivity()).mLVAdapter.notifyDataSetChanged();
+                ma.getWorkersListViewAdapter().notifyDataSetChanged();
 
                 long dtMili = System.currentTimeMillis();
                 Date d = new Date(dtMili);
