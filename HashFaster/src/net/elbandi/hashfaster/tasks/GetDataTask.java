@@ -20,10 +20,10 @@ public class GetDataTask extends BaseDataTask {
 	protected JSONObject doInBackground(String... url) {
 		JSONObject result = new JSONObject();
 		try {
-			result.put("getuserstatus", DoRequest("getuserstatus").optJSONObject("getuserstatus"));
-			result.put("getuserworkers", DoRequest("getuserworkers").optJSONObject("getuserworkers"));
-			result.put("getpoolstatus", DoRequest("getpoolstatus").optJSONObject("getpoolstatus"));
-			result.put("getuserbalance", DoRequest("getuserbalance").optJSONObject("getuserbalance"));
+			result.put("getuserstatus", DoRequest("getuserstatus").opt("getuserstatus"));
+			result.put("getuserworkers", DoRequest("getuserworkers").opt("getuserworkers"));
+			result.put("getpoolstatus", DoRequest("getpoolstatus").opt("getpoolstatus"));
+			result.put("getuserbalance", DoRequest("getuserbalance").opt("getuserbalance"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
