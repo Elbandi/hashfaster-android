@@ -14,6 +14,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -44,8 +47,17 @@ public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
 			String mURL = String.format(BASEURL, mUrl, action, PrefManager.getAPIKey(mContext, mKey));
 			Log.d("HASHFASTER", "DoRequest: url is + " + mURL);
 
+			HttpParams httpParameters = new BasicHttpParams();
+			// Set the timeout in milliseconds until a connection is
+			// established.
+			// The default value is zero, that means the timeout is not used.
+			HttpConnectionParams.setConnectionTimeout(httpParameters, 10000);
+			// Set the default socket timeout (SO_TIMEOUT)
+			// in milliseconds which is the timeout for waiting for data.
+			HttpConnectionParams.setSoTimeout(httpParameters, 15000);
+
 			HttpGet httpPost = new HttpGet(mURL);
-			DefaultHttpClient httpClient = new DefaultHttpClient();
+			DefaultHttpClient httpClient = new DefaultHttpClient(httpParameters);
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();
