@@ -9,7 +9,6 @@ import net.elbandi.hashfaster.AboutActivity;
 import net.elbandi.hashfaster.MainActivity;
 import net.elbandi.hashfaster.R;
 import net.elbandi.hashfaster.SettingsActivity;
-import net.elbandi.hashfaster.controls.HomeTutorialDialog;
 import net.elbandi.hashfaster.interfaces.RefreshListener;
 import net.elbandi.hashfaster.managers.MinerManager;
 import net.elbandi.hashfaster.managers.PrefManager;
@@ -105,7 +104,6 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
         /*
          * Initialize
          */
-        setUpTutorial();
         setUpListeners();
         setUpAlarm();
         return v;
@@ -272,13 +270,6 @@ public class DashboardFragment extends SherlockFragment implements PullToRefresh
                 mPullToRefreshAttacher.setRefreshComplete();
             }
         };
-    }
-
-    private void setUpTutorial() {
-        if (!PrefManager.getSeenHomeTutorial(getActivity())) {
-            HomeTutorialDialog dialog = new HomeTutorialDialog(getActivity());
-            dialog.show();
-        }
     }
 
     private void setUpAlarm() {
