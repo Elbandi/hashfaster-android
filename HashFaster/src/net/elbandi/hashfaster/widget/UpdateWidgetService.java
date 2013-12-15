@@ -40,10 +40,10 @@ public class UpdateWidgetService extends Service {
 			public void onRefresh() {
 				Log.w(LOG, "onRefresh() called");
 				final RemoteViews remoteViews = new RemoteViews(ctx.getPackageName(), R.layout.widget_layout);
-				mMiner = MinerManager.getInstance().getMiner();
+				mMiner = MinerManager.getInstance().getMiner(0);
 
 				int count = 0, active = 0;
-				for (Worker w : MinerManager.getInstance().getMiner().getWorkers()) {
+				for (Worker w : MinerManager.getInstance().getMiner(0).getWorkers()) {
 					count++;
 					if (w.hashrate > 0)
 						active++;
@@ -70,7 +70,7 @@ public class UpdateWidgetService extends Service {
 			};
 		};
 
-		new GetDataTask(ctx, refreshListener, "http://ltc.hashfaster.com", "ltc").execute();
+		new GetDataTask(ctx, refreshListener, 0, "http://ltc.hashfaster.com", "ltc").execute();
 		// stopSelf();
 	}
 

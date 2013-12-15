@@ -16,8 +16,10 @@ import android.content.Context;
  */
 public class GetWorkerDataTask extends BaseDataTask {
 
-	public GetWorkerDataTask(Context context, RefreshListener listener, String url, String key) {
+	int poolid;
+	public GetWorkerDataTask(Context context, RefreshListener listener, int poolid, String url, String key) {
 		super(context, listener, url, key);
+		this.poolid = poolid;
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class GetWorkerDataTask extends BaseDataTask {
 		if (result.length() == 0)
 			return;
 		try {
-			MinerManager.getInstance().getMiner().setWorkers(MinerParser.parseWorkers(result));
+			MinerManager.getInstance().getMiner(poolid).setWorkers(MinerParser.parseWorkers(result));
 		} catch (JSONException e) {
 			setError("Error: Invalid API Key!");
 			e.printStackTrace();

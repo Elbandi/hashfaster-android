@@ -1,13 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ptr_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <ScrollView
         android:id="@+id/information_scrollview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/rl_refresh" >
+        android:layout_height="fill_parent" >
 
         <LinearLayout
             android:id="@+id/information_container"
@@ -208,36 +207,7 @@
                 style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            </LinearLayout>
-
+        </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/rl_refresh"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#CCCCCC"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:gravity="center"
-            android:src="@drawable/clock" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/last_update" />
-
-        <TextView
-            android:id="@+id/tv_last_update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"/>
-    </LinearLayout>
-
-</RelativeLayout>
+</uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout>

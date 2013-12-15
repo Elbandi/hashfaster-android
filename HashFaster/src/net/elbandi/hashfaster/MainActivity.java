@@ -1,42 +1,56 @@
 package net.elbandi.hashfaster;
 
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.adapters.MainPagerAdapter;
 import net.elbandi.hashfaster.adapters.MinerListViewAdapter;
 import net.elbandi.hashfaster.adapters.NavigationListAdapter;
 import net.elbandi.hashfaster.fragments.DashboardFragment;
-import net.elbandi.hashfaster.fragments.WorkersListFragment;
+import net.elbandi.hashfaster.interfaces.RefreshListener;
+import net.elbandi.hashfaster.managers.PrefManager;
+import net.elbandi.hashfaster.tasks.GetDataTask;
+import net.elbandi.hashfaster.utils.NetworkUtils;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
+import android.os.AsyncTask.Status;
 import android.support.v4.view.ViewPager;
-import android.view.ViewGroup;
-import android.widget.ListView;
+import android.text.format.DateFormat;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.sql.Date;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.viewpagerindicator.TabPageIndicator;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class MainActivity extends SherlockFragmentActivity implements ActionBar.OnNavigationListener {
-	private static final int PAGE_INDEX_DASHBOARD = 0;
-	private static final int PAGE_INDEX_WORKERS = 1;
-	private PullToRefreshAttacher mPullToRefreshAttacher;
+public class MainActivity extends SherlockFragmentActivity implements ActionBar.OnNavigationListener, OnRefreshListener {
+	public static final String ARG_APIKEY = "apikey";
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	ListView lvWorkers;
 
+	LinearLayout mRefresh;
+	TextView mLastUpdate;
+	MenuItem refreshMenuItem;
+
+	private DashboardFragment fragment;
 	private MinerListViewAdapter mLVAdapter;
 	private TypedArray pools_url;
 	private TypedArray logos;
@@ -44,17 +58,23 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	private TypedArray titles;
 	private TypedArray subtitles;
 
+	int poolid = 0;
+	GetDataTask dataUpdateTask = null;
+
+	private static final String ALARM_ACTION_NAME = "net.elbandi.hashfaster.ALARM";
 	ViewPager pager;
 	MainPagerAdapter adapter;
 	TabPageIndicator indicator;
+	RefreshListener refreshListener;
+	BroadcastReceiver refreshReceiver;
+
+	PendingIntent pendingIntent;
+	AlarmManager alarmManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		// The attacher should always be created in the Activity's onCreate
-		mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
 
 		// Set up the action bar to show a dropdown list.
 		final ActionBar actionBar = getActionBar();
@@ -82,23 +102,108 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 
 		mLVAdapter = new MinerListViewAdapter(this);
 
-		adapter = new MainPagerAdapter(getSupportFragmentManager(), 0);
+		adapter = new MainPagerAdapter(getSupportFragmentManager(), this, mLVAdapter);
+
+		mLastUpdate = (TextView) findViewById(R.id.tv_last_update);
+		mRefresh = (LinearLayout) findViewById(R.id.rl_refresh);
 
 		pager = (ViewPager) findViewById(R.id.pager);
 		pager.setAdapter(adapter);
 
 		indicator = (TabPageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
+
+		/*
+		 * Initialize
+		 */
+		setUpListeners();
+		setUpAlarm();
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		alarmManager.cancel(pendingIntent);
 	}
 
 	@Override
 	protected void onDestroy() {
+		alarmManager.cancel(pendingIntent);
+		unregisterReceiver(refreshReceiver);
 		pools_url.recycle();
 		apikeys.recycle();
 		logos.recycle();
 		titles.recycle();
 		subtitles.recycle();
 		super.onDestroy();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.activity_home, menu);
+		refreshMenuItem = menu.findItem(R.id.action_refresh);
+		refreshMenuItem.setEnabled(fragment.getPullToRefreshLayout().isEnabled());
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// This uses the imported MenuItem from ActionBarSherlock
+		Intent intent;
+		switch (item.getItemId()) {
+			case android.R.id.home :
+				// ((MainActivity)getActivity()).toggle();
+				break;
+			case R.id.action_refresh :
+				updateView(true);
+				break;
+			case R.id.action_settings :
+				intent = new Intent(this, SettingsActivity.class);
+				intent.putExtra(ARG_APIKEY, apikeys.getString(poolid));
+				startActivity(intent);
+				break;
+			case R.id.action_about :
+				intent = new Intent(this, AboutActivity.class);
+				startActivity(intent);
+				break;
+		}
+		return true;
+	}
+
+	private boolean setupError(boolean error, int resId) {
+		if (refreshMenuItem != null)
+			refreshMenuItem.setEnabled(!error);
+		fragment.getPullToRefreshLayout().setEnabled(!error);
+		fragment.setupError(error, resId);
+		return error;
+	}
+
+	/**
+	 * Updating view with new data
+	 */
+	public void updateView(boolean resetalarm) {
+		if (NetworkUtils.isOn(this)) {
+			if (dataUpdateTask == null || dataUpdateTask.getStatus() != Status.RUNNING) {
+				fragment.getPullToRefreshLayout().setRefreshing(true);
+				dataUpdateTask = new GetDataTask(this, refreshListener, poolid, pools_url.getString(poolid), apikeys.getString(poolid));
+				dataUpdateTask.execute();
+			}
+		} else {
+			fragment.setErrorLabel(R.string.error_nointernet);
+		}
+		if (resetalarm) {
+			int freq = PrefManager.getSyncFrequency(this) * 1000;
+			if (freq > 0) {
+				alarmManager.cancel(pendingIntent);
+				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + freq, freq, pendingIntent);
+			}
+		}
 	}
 
 	/**
@@ -134,75 +239,64 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
 		getActionBar().setIcon(logos.getDrawable(position));
-		if (adapter.getPoolId() != position) {
-			adapter = new MainPagerAdapter(getSupportFragmentManager(), position);
-			pager.setAdapter(adapter);
+		poolid = position;
+		mLVAdapter.setPoolId(poolid);
+		mLastUpdate.setText("");
+		mRefresh.setVisibility(View.GONE);
+		fragment = adapter.getDashboardFragment();
+		fragment.setPoolId(poolid);
+		if (!setupError(PrefManager.getAPIKey(this, apikeys.getString(poolid)).isEmpty(), R.string.error_emptykey)) {
+			int freq = PrefManager.getSyncFrequency(this);
+			if (freq > 0) {
+				alarmManager.cancel(pendingIntent);
+				alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), freq * 1000, pendingIntent);
+				// AlarmManager.ELAPSED_REALTIME_WAKEUP
+				// AlarmManager.RTC
+			}
 		}
 		return true;
 	}
 
-	public PullToRefreshAttacher getPullToRefreshAttacher() {
-		return mPullToRefreshAttacher;
+	@Override
+	public void onRefreshStarted(View view) {
+		updateView(true);
 	}
 
-	public MinerListViewAdapter getWorkersListViewAdapter() {
-		return mLVAdapter;
+	/**
+	 * Setting up listeners
+	 */
+	private void setUpListeners() {
+		final String lastupdate = getResources().getString(R.string.dateformat_lastupdate);
+		refreshListener = new RefreshListener() {
+			@Override
+			public void onRefresh() {
+
+				fragment.onRefresh();
+				mLVAdapter.notifyDataSetChanged();
+
+				long dtMili = System.currentTimeMillis();
+				Date d = new Date(dtMili);
+				CharSequence s = DateFormat.format(lastupdate, d.getTime());
+				// textView is the TextView view that should display it
+				mLastUpdate.setText(s);
+				mRefresh.setVisibility(View.VISIBLE);
+
+				// Notify PullToRefreshAttacher that the refresh has finished
+				fragment.getPullToRefreshLayout().setRefreshComplete();
+			}
+		};
+
 	}
 
-	class MainPagerAdapter extends FragmentPagerAdapter {
-		private FragmentManager fm;
-		private int poolId;
-		public MainPagerAdapter(FragmentManager fm, int poolId) {
-			super(fm);
-			this.fm = fm;
-			this.poolId = poolId;
-		}
-
-		public int getPoolId() {
-			return poolId;
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			switch (position) {
-				case PAGE_INDEX_DASHBOARD : {
-					Fragment fragment = new DashboardFragment();
-					Bundle args = new Bundle();
-					args.putString(DashboardFragment.ARG_URL, pools_url.getString(poolId));
-					args.putString(DashboardFragment.ARG_APIKEY, apikeys.getString(poolId));
-					fragment.setArguments(args);
-					return fragment;
-				}
-				case PAGE_INDEX_WORKERS :
-					return new WorkersListFragment(mLVAdapter);
-				default :
-					throw new IllegalStateException("Illegal fragment index requested");
+	private void setUpAlarm() {
+		refreshReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				updateView(false);
 			}
-		}
-
-		@Override
-		public void destroyItem(ViewGroup container, int position, Object object) {
-			super.destroyItem(container, position, object);
-			FragmentTransaction bt = fm.beginTransaction();
-			bt.remove((Fragment) object);
-			bt.commit();
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			switch (position) {
-				case PAGE_INDEX_DASHBOARD :
-					return getApplicationContext().getString(R.string.tab_dashboard);
-				case PAGE_INDEX_WORKERS :
-					return getApplicationContext().getString(R.string.tab_workers);
-				default :
-					throw new IllegalStateException("Illegal fragment index requested");
-			}
-		}
-
-		@Override
-		public int getCount() {
-			return 2;
-		}
+		};
+		registerReceiver(refreshReceiver, new IntentFilter(ALARM_ACTION_NAME));
+		pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ALARM_ACTION_NAME), PendingIntent.FLAG_CANCEL_CURRENT);
+		alarmManager = (AlarmManager) (getSystemService(Context.ALARM_SERVICE));
 	}
 }

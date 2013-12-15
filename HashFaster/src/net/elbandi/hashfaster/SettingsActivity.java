@@ -10,7 +10,6 @@ import com.actionbarsherlock.view.MenuItem;
 
 import net.elbandi.hashfaster.R;
 import net.elbandi.hashfaster.controls.MyEditTextPreference;
-import net.elbandi.hashfaster.fragments.DashboardFragment;
 import net.elbandi.hashfaster.qr.IntentIntegrator;
 import net.elbandi.hashfaster.qr.IntentResult;
 
@@ -29,7 +28,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		addPreferencesFromResource(R.xml.preferences);
 
 		Intent intent = getIntent();
-		String apikey = intent.getStringExtra(DashboardFragment.ARG_APIKEY);
+		String apikey = intent.getStringExtra(MainActivity.ARG_APIKEY);
 		mAPIKey = (MyEditTextPreference) findPreference(getString(R.string.settings_api_key));
 		mAPIKey.setKey(getString(R.string.settings_api_key) + "_" + apikey);
 		mAPIKey.reloadInitialValue();

@@ -44,6 +44,7 @@
     <string name="pool_estshares">Est. Shares this Round</string>
     <string name="pool_timesincelast">Time Since Last Block</string>
     <string name="last_update">Last Update:</string>
+    <string name="last_update_icon">Clock</string>
     <string name="about_title">Quick and dirty ltc.hashfaster.com checker\n(based on Ninchuu\'s WeMineLTC checker)</string>
     <string name="dateformat_lastupdate">hh:mm:ss, EEEE, MMMM d, yyyy</string>
     <string name="dateformat_seconds">ss \'seconds\'</string>

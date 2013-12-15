@@ -1,12 +1,15 @@
 package net.elbandi.hashfaster.fragments;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+
 import net.elbandi.hashfaster.adapters.MinerListViewAdapter;
+import net.elbandi.hashfaster.interfaces.RefreshListener;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 @SuppressLint("ValidFragment")
-public final class WorkersListFragment extends SherlockListFragment {
+public final class WorkersListFragment extends SherlockListFragment implements RefreshListener {
 
 	public WorkersListFragment(MinerListViewAdapter mLVAdapter) {
 		super();
@@ -36,5 +39,10 @@ public final class WorkersListFragment extends SherlockListFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		// outState.putString(KEY_CONTENT, mContent);
+	}
+
+	@Override
+	public void onRefresh() {
+		mLVAdapter.notifyDataSetChanged();
 	}
 }

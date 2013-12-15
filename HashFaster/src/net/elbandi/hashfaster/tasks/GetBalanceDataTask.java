@@ -16,8 +16,10 @@ import android.content.Context;
  */
 public class GetBalanceDataTask extends BaseDataTask {
 
-	private GetBalanceDataTask(Context context, RefreshListener listener, String url, String key) {
+	int poolid;
+	private GetBalanceDataTask(Context context, RefreshListener listener, int poolid, String url, String key) {
 		super(context, listener, url, key);
+		this.poolid = poolid;
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class GetBalanceDataTask extends BaseDataTask {
 		try {
 			if (result.length() == 0)
 				return;
-			MinerManager.getInstance().getMiner().setBalance(MinerParser.parseBalance(result));
+			MinerManager.getInstance().getMiner(poolid).setBalance(MinerParser.parseBalance(result));
 		} catch (JSONException e) {
 			setError("Error: Invalid API Key!");
 			e.printStackTrace();
