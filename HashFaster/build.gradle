@@ -10,7 +10,7 @@ apply plugin: 'android'
 
 dependencies {
     compile 'com.android.support:support-v4:18.0.+'
-    compile files('libs/acra-4.5.0.jar')
+    compile files('libs/acra-4.5.0.jar', 'libs/core-2.3.0.jar', 'libs/litecoinwallet-integration-android-1.0.jar')
     compile project(':Libraries:ActionBar-PullToRefresh:library')
     compile project(':Libraries:ActionBar-PullToRefresh:extras:actionbarsherlock')
     compile project(':Libraries:ActionBarSherlock:actionbarsherlock')

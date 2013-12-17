@@ -19,7 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_title"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            tools:ignore="SpUsage" />
 
         <TextView
             android:id="@+id/tv_im_a_whore"
@@ -31,8 +32,18 @@
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:ignore="HardcodedText"
-            android:text="LRJiKrH9hu1bCZjsi7sVTveLNqgqwbnKPt" />
+            android:text="LRJiKrH9hu1bCZjsi7sVTveLNqgqwbnKPt"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/request_coins_qr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:contentDescription="LRJiKrH9hu1bCZjsi7sVTveLNqgqwbnKPt"
+            android:keepScreenOn="true"
+            android:scaleType="fitCenter"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/btn_save_address"
