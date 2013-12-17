@@ -12,15 +12,17 @@ dependencies {
     compile 'com.android.support:support-v4:18.0.+'
     compile files('libs/acra-4.5.0.jar')
     compile project(':Libraries:ActionBar-PullToRefresh:library')
+    compile project(':Libraries:ActionBar-PullToRefresh:extras:actionbarsherlock')
     compile project(':Libraries:ActionBarSherlock:actionbarsherlock')
     compile project(':Libraries:Android-ViewPagerIndicator:library')
 }
 
 android {
-    compileSdkVersion 'android-15'
-    buildToolsVersion '18.0.1'
+    compileSdkVersion 19
+    buildToolsVersion '19.0.0'
 
     defaultConfig {
+        targetSdkVersion 19
         versionCode 2
         versionName "0.2"
     }

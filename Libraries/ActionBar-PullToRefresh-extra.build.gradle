@@ -1,7 +1,8 @@
 apply plugin: 'android-library'
 
 dependencies {
-    compile project(':Libraries:SmoothProgressBar:library')
+    compile project(':Libraries:ActionBar-PullToRefresh:library')
+    compile project(':Libraries:ActionBarSherlock:actionbarsherlock')
 }
 
 android {
