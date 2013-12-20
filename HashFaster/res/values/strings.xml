@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">HashFaster\'s Pool Status</string>
+    <string name="widget_name">HashFaster Widget</string>
     <string name="hello_world">Hello world!</string>
 
     <string name="action_refresh">Refresh</string>
@@ -67,6 +68,10 @@
     <string name="pref_sync_frequency_summary">Set the sync frequency</string>
     <string name="pref_api_key">Enter your API Key</string>
     <string name="pref_api_key_summary">Found in My Account/Edit Account</string>
+    <string name="pref_pool">Select Pool</string>
+    <string name="pref_pool_summary">Set the pool</string>
+    <string name="pref_pool_dialog_title">Select pool</string>
+    <string name="pref_widget_save">Save</string>
 
     <string name="pref_error_reporting">Error Reporting</string>
     <string name="pref_send_report">Send crash reports</string>

@@ -44,6 +44,36 @@ public class PrefManager {
 		return Integer.parseInt(getPreference(context, R.string.settings_sync_frequency, "0"));
 	}
 
+	public static void setWidgetPoolId(Context context, int appWidgetId, int poolid) {
+		String key = String.format(context.getString(R.string.settings_widget_pool_id), appWidgetId);
+		setPreference(context, key, poolid);
+	}
+
+	public static int getWidgetPoolId(Context context, int appWidgetId) {
+		String key = String.format(context.getString(R.string.settings_widget_pool_id), appWidgetId);
+		return getPreference(context, key, -1);
+	}
+
+	public static void delWidgetPoolId(Context context, int appWidgetId) {
+		String key = String.format(context.getString(R.string.settings_widget_pool_id), appWidgetId);
+		removePreference(context, key);
+	}
+
+	public static void setWidgetSyncFrequency(Context context, int appWidgetId, int poolid) {
+		String key = String.format(context.getString(R.string.settings_widget_sync_frequency), appWidgetId);
+		setPreference(context, key, poolid);
+	}
+
+	public static int getWidgetSyncFrequency(Context context, int appWidgetId) {
+		String key = String.format(context.getString(R.string.settings_widget_sync_frequency), appWidgetId);
+		return getPreference(context, key, -1);
+	}
+
+	public static void delWidgetSyncFrequency(Context context, int appWidgetId) {
+		String key = String.format(context.getString(R.string.settings_widget_sync_frequency), appWidgetId);
+		removePreference(context, key);
+	}
+
 	/*
 	 * Android preference helpers
 	 */
@@ -54,7 +84,6 @@ public class PrefManager {
 		editor.commit();
 	}
 
-	@SuppressWarnings("unused")
 	private static void setPreference(Context context, String key, int value) {
 		Editor editor = getSharedPreferences(context).edit();
 		editor.putInt(key, value);
@@ -88,11 +117,23 @@ public class PrefManager {
 		editor.commit();
 	}
 
+	private static void removePreference(Context context, String key) {
+		Editor editor = getSharedPreferences(context).edit();
+		editor.remove(key);
+		editor.commit();
+	}
+
+	@SuppressWarnings("unused")
+	private static void removePreference(Context context, int key) {
+		Editor editor = getSharedPreferences(context).edit();
+		editor.remove(context.getString(key));
+		editor.commit();
+	}
+
 	private static String getPreference(Context context, String key, String defaultValue) {
 		return getSharedPreferences(context).getString(key, defaultValue);
 	}
 
-	@SuppressWarnings("unused")
 	private static int getPreference(Context context, String key, int defaultValue) {
 		return getSharedPreferences(context).getInt(key, defaultValue);
 	}

@@ -56,6 +56,18 @@
         <item>anc</item>
         <item>sbc</item>
     </array>
+
+    <string-array name="pools_id">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
     <array name="pools_url">
         <item>http://ltc.hashfaster.com</item>
         <item>http://ftc.hashfaster.com</item>

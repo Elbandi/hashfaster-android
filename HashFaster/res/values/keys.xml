@@ -4,4 +4,8 @@
     <string name="settings_qr_scan">QR_SCAN</string>
     <string name="settings_home_tutorial">HOME_TUTORIAL</string>
     <string name="settings_sync_frequency">SYNC_FREQUENCY</string>
+    <string name="settings_widget_pool_id">WIDGET_%s_POOLID</string>
+    <string name="settings_widget_sync_frequency">WIDGET_%s_SYNC_FREQUENCY</string>
+    <string name="settings_pool_id">WIDGET_POOLID</string>
+    <string name="settings_pool_sync_frequency">WIDGET_SYNC_FREQUENCY</string>
 </resources>
