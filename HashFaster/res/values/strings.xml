@@ -17,6 +17,7 @@
     <string name="actionbar_release">Release</string>
 
     <string name="title_activity_ltc">Litecoin</string>
+    <string name="title_activity_doge">Dogecoin</string>
     <string name="title_activity_ftc">Feathercoin</string>
     <string name="title_activity_fst">Fastcoin</string>
     <string name="title_activity_wdc">Worldcoin</string>

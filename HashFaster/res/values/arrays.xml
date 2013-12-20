@@ -18,6 +18,7 @@
 
     <array name="activity_titles">
         <item>@string/title_activity_ltc</item>
+        <item>@string/title_activity_doge</item>
         <item>@string/title_activity_ftc</item>
         <item>@string/title_activity_fst</item>
         <item>@string/title_activity_wdc</item>
@@ -28,6 +29,7 @@
     </array>
     <array name="activity_logos">
         <item>@drawable/ic_launcher_ltc</item>
+        <item>@drawable/ic_launcher_doge</item>
         <item>@drawable/ic_launcher_ftc</item>
         <item>@drawable/ic_launcher_fst</item>
         <item>@drawable/ic_launcher_wdc</item>
@@ -45,9 +47,11 @@
         <item>@string/subtitle_activity_ltc</item>
         <item>@string/subtitle_activity_ltc</item>
         <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
     </array>
     <array name="pools_key">
         <item>ltc</item>
+        <item>doge</item>
         <item>ftc</item>
         <item>fst</item>
         <item>wdc</item>
@@ -66,10 +70,12 @@
         <item>5</item>
         <item>6</item>
         <item>7</item>
+        <item>8</item>
     </string-array>
 
     <array name="pools_url">
         <item>http://ltc.hashfaster.com</item>
+        <item>http://doge.hashfaster.com</item>
         <item>http://ftc.hashfaster.com</item>
         <item>http://fst.hashfaster.com</item>
         <item>http://wdc.hashfaster.com</item>
