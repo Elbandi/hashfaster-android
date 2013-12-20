@@ -8,8 +8,7 @@
             android:entryValues="@array/pools_id"
             android:key="@string/settings_pool_id"
             android:persistent="false"
-            android:title="@string/pref_pool"
-            iconlistpreference:entryIcons="@array/activity_logos" >
+            android:title="@string/pref_pool" >
         </net.elbandi.hashfaster.controls.IconListPreference>
 
         <ListPreference

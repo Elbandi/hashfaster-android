@@ -1,5 +1,6 @@
 package net.elbandi.hashfaster;
 
+import net.elbandi.hashfaster.controls.IconListPreference;
 import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.widget.MyWidgetProvider;
 
@@ -44,11 +45,12 @@ public class WidgetConfigurationActivity extends PreferenceActivity {
 		titles = getResources().obtainTypedArray(R.array.activity_titles);
 		syncFrequency = getResources().obtainTypedArray(R.array.syncFrequency);
 
-		final ListPreference list_pool_id = (ListPreference) findPreference(getString(R.string.settings_pool_id));
+		final IconListPreference list_pool_id = (IconListPreference) findPreference(getString(R.string.settings_pool_id));
 		final ListPreference list_syncfrequency = (ListPreference) findPreference(getString(R.string.settings_pool_sync_frequency));
 		int pool_id = PrefManager.getWidgetPoolId(this, appWidgetId);
 		int sync_freq = PrefManager.getWidgetSyncFrequency(this, appWidgetId);
 
+		list_pool_id.setEntryIcons(R.array.activity_logos);
 		list_pool_id.setDefaultValue(pool_id);
 		list_pool_id.setValue(Integer.toString(pool_id));
 		list_pool_id.setSummary(titles.getString(pool_id));
