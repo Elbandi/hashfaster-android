@@ -32,7 +32,7 @@ public class DashboardFragment extends SherlockFragment implements RefreshListen
 		mTimestamp;
 	TextView mError;
 	ScrollView mRefresh;
-	int poolid;
+	String pool;
 
 	RefreshListener refreshListener;
 	private PullToRefreshLayout mPullToRefreshLayout;
@@ -47,19 +47,19 @@ public class DashboardFragment extends SherlockFragment implements RefreshListen
 		return f;
 	}
 
-	public int getPoolId() {
-		return poolid;
+	public String getPoolId() {
+		return pool;
 	}
 
-	public void setPoolId(int poolid) {
-		this.poolid = poolid;
+	public void setPoolId(String pool) {
+		this.pool = pool;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		poolid = 0;
+		pool = "";
 	}
 
 	public View onCreateView(android.view.LayoutInflater inflater, android.view.ViewGroup container, Bundle savedInstanceState) {
@@ -135,9 +135,9 @@ public class DashboardFragment extends SherlockFragment implements RefreshListen
 
 			@Override
 			public void onRefresh() {
-				Miner mMiner = MinerManager.getInstance().getMiner(poolid);
+				Miner mMiner = MinerManager.getInstance().getMiner(pool);
 				Balance mBalance = mMiner.getBalance();
-				Pool mPool = MinerManager.getInstance().getPool(poolid);
+				Pool mPool = MinerManager.getInstance().getPool(pool);
 
 				mUsername.setText(mMiner.username);
 				mHashrate.setText(String.valueOf(mMiner.total_hashrate) + " Kh/s");

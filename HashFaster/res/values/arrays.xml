@@ -49,7 +49,7 @@
         <item>@string/subtitle_activity_ltc</item>
         <item>@string/subtitle_activity_ltc</item>
     </array>
-    <array name="pools_key">
+    <array name="pool_keys">
         <item>ltc</item>
         <item>doge</item>
         <item>ftc</item>
@@ -60,20 +60,7 @@
         <item>anc</item>
         <item>sbc</item>
     </array>
-
-    <string-array name="pools_id">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-    </string-array>
-
-    <array name="pools_url">
+    <array name="pool_urls">
         <item>http://ltc.hashfaster.com</item>
         <item>http://doge.hashfaster.com</item>
         <item>http://ftc.hashfaster.com</item>

@@ -16,10 +16,8 @@ import android.content.Context;
  */
 public class GetMinerDataTask extends BaseDataTask {
 
-	int poolid;
-	private GetMinerDataTask(Context context, RefreshListener listener, int poolid, String url, String key) {
-		super(context, listener, url, key);
-		this.poolid = poolid;
+	private GetMinerDataTask(Context context, RefreshListener listener, String key) {
+		super(context, listener, key);
 	}
 
 	@Override
@@ -32,7 +30,7 @@ public class GetMinerDataTask extends BaseDataTask {
 		try {
 			if (result.length() == 0)
 				return;
-			MinerManager.getInstance().setMiner(poolid, MinerParser.parseMiner(result));
+			MinerManager.getInstance().setMiner(mKey, MinerParser.parseMiner(result));
 		} catch (JSONException e) {
 			setError("Error: Invalid API Key!");
 			e.printStackTrace();

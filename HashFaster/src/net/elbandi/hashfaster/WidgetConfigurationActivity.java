@@ -1,6 +1,7 @@
 package net.elbandi.hashfaster;
 
 import net.elbandi.hashfaster.controls.IconListPreference;
+import net.elbandi.hashfaster.managers.PoolManager;
 import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.widget.MyWidgetProvider;
 
@@ -23,7 +24,6 @@ import android.widget.Button;
 
 public class WidgetConfigurationActivity extends PreferenceActivity {
 	private int appWidgetId;
-	private TypedArray titles;
 	private TypedArray syncFrequency;
 
 	@SuppressWarnings("deprecation")
@@ -42,32 +42,36 @@ public class WidgetConfigurationActivity extends PreferenceActivity {
 		setResult(RESULT_CANCELED, cancelResultValue);
 		LayoutInflater inflater = LayoutInflater.from(this);
 
-		titles = getResources().obtainTypedArray(R.array.activity_titles);
 		syncFrequency = getResources().obtainTypedArray(R.array.syncFrequency);
 
 		final IconListPreference list_pool_id = (IconListPreference) findPreference(getString(R.string.settings_pool_id));
 		final ListPreference list_syncfrequency = (ListPreference) findPreference(getString(R.string.settings_pool_sync_frequency));
-		int pool_id = PrefManager.getWidgetPoolId(this, appWidgetId);
+		String pool = PrefManager.getWidgetPoolKey(this, appWidgetId);
 		int sync_freq = PrefManager.getWidgetSyncFrequency(this, appWidgetId);
 
 		list_pool_id.setEntryIcons(R.array.activity_logos);
-		list_pool_id.setDefaultValue(pool_id);
-		list_pool_id.setValue(Integer.toString(pool_id));
-		list_pool_id.setSummary(titles.getString(pool_id));
+		list_pool_id.setDefaultValue(pool);
+		list_pool_id.setValue(pool);
+		list_pool_id.setSummary(PoolManager.getTitles(pool));
 		list_pool_id.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				list_pool_id.setSummary(titles.getString(Integer.parseInt((String) newValue)));
+				list_pool_id.setSummary(PoolManager.getTitles((String) newValue));
 				return true;
 			}
 		});
-		list_syncfrequency.setDefaultValue(sync_freq);
-		list_syncfrequency.setValue(Integer.toString(sync_freq));
-		list_syncfrequency.setSummary(syncFrequency.getString(pool_id));
+		if (sync_freq != -1) {
+			list_syncfrequency.setDefaultValue(sync_freq);
+			list_syncfrequency.setValue(Integer.toString(sync_freq));
+			int i = list_syncfrequency.findIndexOfValue(list_syncfrequency.getValue());
+			list_syncfrequency.setSummary(syncFrequency.getString(i));
+		}
 		list_syncfrequency.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				list_syncfrequency.setSummary(syncFrequency.getString(Integer.parseInt((String) newValue)));
+				String str = (String) newValue;
+				int i = list_syncfrequency.findIndexOfValue(str);
+				list_syncfrequency.setSummary(syncFrequency.getString(i));
 				return true;
 			}
 		});
@@ -78,10 +82,10 @@ public class WidgetConfigurationActivity extends PreferenceActivity {
 			@Override
 			public void onClick(View arg0) {
 				// get the date from DatePicker
-				String pool_id = list_pool_id.getValue();
+				String pool = list_pool_id.getValue();
 				String sync_freq = list_syncfrequency.getValue();
-				if (pool_id != null && sync_freq != null) {
-					PrefManager.setWidgetPoolId(WidgetConfigurationActivity.this, appWidgetId, Integer.parseInt(pool_id));
+				if (pool != null && sync_freq != null) {
+					PrefManager.setWidgetPoolKey(WidgetConfigurationActivity.this, appWidgetId, pool);
 					PrefManager.setWidgetSyncFrequency(WidgetConfigurationActivity.this, appWidgetId, Integer.parseInt(sync_freq));
 					// change the result to OK
 					Intent resultValue = new Intent();
@@ -109,7 +113,6 @@ public class WidgetConfigurationActivity extends PreferenceActivity {
 
 	@Override
 	protected void onDestroy() {
-		titles.recycle();
 		syncFrequency.recycle();
 		super.onDestroy();
 	}

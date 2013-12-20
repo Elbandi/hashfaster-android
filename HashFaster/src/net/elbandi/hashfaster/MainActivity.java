@@ -7,6 +7,7 @@ import net.elbandi.hashfaster.adapters.MinerListViewAdapter;
 import net.elbandi.hashfaster.adapters.NavigationListAdapter;
 import net.elbandi.hashfaster.fragments.DashboardFragment;
 import net.elbandi.hashfaster.interfaces.RefreshListener;
+import net.elbandi.hashfaster.managers.PoolManager;
 import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.tasks.GetDataTask;
 import net.elbandi.hashfaster.utils.NetworkUtils;
@@ -19,7 +20,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.AsyncTask.Status;
@@ -52,13 +52,8 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 
 	private DashboardFragment fragment;
 	private MinerListViewAdapter mLVAdapter;
-	private TypedArray pools_url;
-	private TypedArray logos;
-	private TypedArray apikeys;
-	private TypedArray titles;
-	private TypedArray subtitles;
 
-	int poolid = 0;
+	String pool = "";
 	GetDataTask dataUpdateTask = null;
 
 	private static final String ALARM_ACTION_NAME = "net.elbandi.hashfaster.ALARM";
@@ -88,14 +83,8 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		// R.layout.sherlock_spinner_item);
 		// list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 
-		pools_url = getResources().obtainTypedArray(R.array.pools_url);
-		apikeys = getResources().obtainTypedArray(R.array.pools_key);
-
 		Context context = getSupportActionBar().getThemedContext();
-		logos = getResources().obtainTypedArray(R.array.activity_logos);
-		titles = getResources().obtainTypedArray(R.array.activity_titles);
-		subtitles = getResources().obtainTypedArray(R.array.activity_subtitles);
-		NavigationListAdapter navigationListApdater = new NavigationListAdapter(context, logos, titles, subtitles);
+		NavigationListAdapter navigationListApdater = new NavigationListAdapter(context);
 
 		// Set up the dropdown list navigation in the action bar.
 		actionBar.setListNavigationCallbacks(navigationListApdater, this);
@@ -136,11 +125,6 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	protected void onDestroy() {
 		alarmManager.cancel(pendingIntent);
 		unregisterReceiver(refreshReceiver);
-		pools_url.recycle();
-		apikeys.recycle();
-		logos.recycle();
-		titles.recycle();
-		subtitles.recycle();
 		super.onDestroy();
 	}
 
@@ -165,7 +149,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 				break;
 			case R.id.action_settings :
 				intent = new Intent(this, SettingsActivity.class);
-				intent.putExtra(ARG_APIKEY, apikeys.getString(poolid));
+				intent.putExtra(ARG_APIKEY, pool);
 				startActivity(intent);
 				break;
 			case R.id.action_about :
@@ -191,7 +175,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		if (NetworkUtils.isOn(this)) {
 			if (dataUpdateTask == null || dataUpdateTask.getStatus() != Status.RUNNING) {
 				fragment.getPullToRefreshLayout().setRefreshing(true);
-				dataUpdateTask = new GetDataTask(this, refreshListener, poolid, pools_url.getString(poolid), apikeys.getString(poolid));
+				dataUpdateTask = new GetDataTask(this, refreshListener, pool);
 				dataUpdateTask.execute();
 			}
 		} else {
@@ -238,14 +222,14 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	public boolean onNavigationItemSelected(int position, long id) {
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
-		getActionBar().setIcon(logos.getDrawable(position));
-		poolid = position;
-		mLVAdapter.setPoolId(poolid);
+		pool = PoolManager.getPoolKey(position);
+		getActionBar().setIcon(PoolManager.getLogo(pool));
+		mLVAdapter.setPoolId(pool);
 		mLastUpdate.setText("");
 		mRefresh.setVisibility(View.GONE);
 		fragment = adapter.getDashboardFragment();
-		fragment.setPoolId(poolid);
-		if (!setupError(PrefManager.getAPIKey(this, apikeys.getString(poolid)).isEmpty(), R.string.error_emptykey)) {
+		fragment.setPoolId(pool);
+		if (!setupError(PrefManager.getAPIKey(this, pool).isEmpty(), R.string.error_emptykey)) {
 			int freq = PrefManager.getSyncFrequency(this);
 			if (freq > 0) {
 				alarmManager.cancel(pendingIntent);

@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 
 import net.elbandi.hashfaster.ApiKeyException;
 import net.elbandi.hashfaster.interfaces.RefreshListener;
+import net.elbandi.hashfaster.managers.PoolManager;
 import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.utils.StringUtils;
 
@@ -28,13 +29,11 @@ public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
 
 	Context mContext;
 	RefreshListener mListener;
-	String mUrl;
 	String mKey;
 
-	public BaseDataTask(Context context, RefreshListener listener, String url, String key) {
+	public BaseDataTask(Context context, RefreshListener listener, String key) {
 		mContext = context;
 		mListener = listener;
-		mUrl = url;
 		mKey = key;
 	}
 
@@ -44,7 +43,7 @@ public abstract class BaseDataTask extends AsyncTask<String, Void, JSONObject> {
 		JSONObject result = new JSONObject();
 
 		try {
-			String mURL = String.format(BASEURL, mUrl, action, PrefManager.getAPIKey(mContext, mKey));
+			String mURL = String.format(BASEURL, PoolManager.getPoolUrl(mKey), action, PrefManager.getAPIKey(mContext, mKey));
 			Log.d("HASHFASTER", "DoRequest: url is + " + mURL);
 
 			HttpParams httpParameters = new BasicHttpParams();

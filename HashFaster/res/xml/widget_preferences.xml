@@ -5,7 +5,7 @@
         <net.elbandi.hashfaster.controls.IconListPreference
             android:dialogTitle="@string/pref_pool_dialog_title"
             android:entries="@array/activity_titles"
-            android:entryValues="@array/pools_id"
+            android:entryValues="@array/pool_keys"
             android:key="@string/settings_pool_id"
             android:persistent="false"
             android:title="@string/pref_pool" >

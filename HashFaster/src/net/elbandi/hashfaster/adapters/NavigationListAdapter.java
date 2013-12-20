@@ -1,9 +1,9 @@
 package net.elbandi.hashfaster.adapters;
 
 import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.managers.PoolManager;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +20,12 @@ public class NavigationListAdapter extends BaseAdapter implements SpinnerAdapter
 	 * Members
 	 */
 	private LayoutInflater m_layoutInflater;
-	private TypedArray m_logos;
-	private TypedArray m_titles;
-	private TypedArray m_subtitles;
 
 	/**
 	 * Constructor
 	 */
-	public NavigationListAdapter(Context p_context, TypedArray p_logos, TypedArray p_titles, TypedArray p_subtitles) {
+	public NavigationListAdapter(Context p_context) {
 		m_layoutInflater = LayoutInflater.from(p_context);
-		m_logos = p_logos;
-		m_titles = p_titles;
-		m_subtitles = p_subtitles;
 	}
 
 	/*
@@ -41,7 +35,7 @@ public class NavigationListAdapter extends BaseAdapter implements SpinnerAdapter
 	 */
 	@Override
 	public int getCount() {
-		return m_titles.length();
+		return PoolManager.getPoolCount();
 	}
 
 	/*
@@ -61,7 +55,7 @@ public class NavigationListAdapter extends BaseAdapter implements SpinnerAdapter
 	 */
 	@Override
 	public long getItemId(int p_position) {
-		return m_titles.getResourceId(p_position, 0);
+		return p_position;//m_titles.getResourceId(p_position, 0);
 	}
 
 	/*
@@ -79,17 +73,18 @@ public class NavigationListAdapter extends BaseAdapter implements SpinnerAdapter
 		if (view == null) {
 			view = m_layoutInflater.inflate(R.layout.navigation_list_item, p_parent, false);
 		}
+		String key = PoolManager.getPoolKey(p_position);
 
 		/*
 		 * Display...
 		 */
 		// Title...
 		TextView tv_title = (TextView) view.findViewById(R.id.title);
-		tv_title.setText(m_titles.getString(p_position));
+		tv_title.setText(PoolManager.getTitles(key));
 
 		// Subtitle...
 		TextView tv_subtitle = ((TextView) view.findViewById(R.id.subtitle));
-		tv_subtitle.setText(m_subtitles.getString(p_position));
+		tv_subtitle.setText(PoolManager.getSubTitles(key));
 		tv_subtitle.setVisibility("".equals(tv_subtitle.getText()) ? View.GONE : View.VISIBLE);
 
 		/*
@@ -114,21 +109,22 @@ public class NavigationListAdapter extends BaseAdapter implements SpinnerAdapter
 			view = m_layoutInflater.inflate(R.layout.navigation_list_dropdown_item, p_parent, false);
 		}
 
+		String key = PoolManager.getPoolKey(p_position);
 		/*
 		 * Display...
 		 */
 
 		// Icon...
 		ImageView iv_logo = (ImageView) view.findViewById(R.id.logo);
-		iv_logo.setImageDrawable(m_logos.getDrawable(p_position));
+		iv_logo.setImageDrawable(PoolManager.getLogo(key));
 
 		// Title...
 		TextView tv_title = (TextView) view.findViewById(R.id.title);
-		tv_title.setText(m_titles.getString(p_position));
+		tv_title.setText(PoolManager.getTitles(key));
 
 		// Subtitle...
 		TextView tv_subtitle = ((TextView) view.findViewById(R.id.subtitle));
-		tv_subtitle.setText(m_subtitles.getString(p_position));
+		tv_subtitle.setText(PoolManager.getSubTitles(key));
 		tv_subtitle.setVisibility("".equals(tv_subtitle.getText()) ? View.GONE : View.VISIBLE);
 
 		/*

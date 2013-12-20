@@ -1,6 +1,7 @@
 package net.elbandi.hashfaster.managers;
 
 import net.elbandi.hashfaster.R;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -44,17 +45,17 @@ public class PrefManager {
 		return Integer.parseInt(getPreference(context, R.string.settings_sync_frequency, "0"));
 	}
 
-	public static void setWidgetPoolId(Context context, int appWidgetId, int poolid) {
+	public static void setWidgetPoolKey(Context context, int appWidgetId, String pool) {
 		String key = String.format(context.getString(R.string.settings_widget_pool_id), appWidgetId);
-		setPreference(context, key, poolid);
+		setPreference(context, key, pool);
 	}
 
-	public static int getWidgetPoolId(Context context, int appWidgetId) {
+	public static String getWidgetPoolKey(Context context, int appWidgetId) {
 		String key = String.format(context.getString(R.string.settings_widget_pool_id), appWidgetId);
-		return getPreference(context, key, -1);
+		return getPreference(context, key, null);
 	}
 
-	public static void delWidgetPoolId(Context context, int appWidgetId) {
+	public static void delWidgetPoolKey(Context context, int appWidgetId) {
 		String key = String.format(context.getString(R.string.settings_widget_pool_id), appWidgetId);
 		removePreference(context, key);
 	}
@@ -77,7 +78,6 @@ public class PrefManager {
 	/*
 	 * Android preference helpers
 	 */
-	@SuppressWarnings("unused")
 	private static void setPreference(Context context, String key, String value) {
 		Editor editor = getSharedPreferences(context).edit();
 		editor.putString(key, value);

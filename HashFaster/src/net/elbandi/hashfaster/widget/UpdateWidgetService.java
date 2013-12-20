@@ -34,7 +34,7 @@ public class UpdateWidgetService extends Service {
 			ctx.toString();
 		}
 		final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
-		final int poolid = PrefManager.getWidgetPoolId(ctx, appWidgetId);
+		final String pool = PrefManager.getWidgetPoolKey(ctx, appWidgetId);
 		Log.i(LOG, "UpdateWidgetService: onStart() called " + startId + ":" + appWidgetId);
 
 		refreshListener = new RefreshListener() {
@@ -42,10 +42,10 @@ public class UpdateWidgetService extends Service {
 			public void onRefresh() {
 				Log.w(LOG, "onRefresh() called");
 				RemoteViews remoteViews = new RemoteViews(ctx.getPackageName(), R.layout.widget_layout);
-				mMiner = MinerManager.getInstance().getMiner(poolid);
+				mMiner = MinerManager.getInstance().getMiner(pool);
 
 				int count = 0, active = 0;
-				for (Worker w : MinerManager.getInstance().getMiner(poolid).getWorkers()) {
+				for (Worker w : MinerManager.getInstance().getMiner(pool).getWorkers()) {
 					count++;
 					if (w.hashrate > 0)
 						active++;
@@ -61,10 +61,10 @@ public class UpdateWidgetService extends Service {
 			};
 		};
 
-		TypedArray pools_url = getResources().obtainTypedArray(R.array.pools_url);
-		TypedArray apikeys = getResources().obtainTypedArray(R.array.pools_key);
+		TypedArray pools_url = getResources().obtainTypedArray(R.array.pool_urls);
+		TypedArray apikeys = getResources().obtainTypedArray(R.array.pool_keys);
 		try {
-			new GetDataTask(ctx, refreshListener, poolid, pools_url.getString(poolid), apikeys.getString(poolid)).execute();
+			new GetDataTask(ctx, refreshListener, pool).execute();
 		} finally {
 			pools_url.recycle();
 			apikeys.recycle();

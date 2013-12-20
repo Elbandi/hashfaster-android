@@ -2,6 +2,7 @@ package net.elbandi.hashfaster.widget;
 
 import net.elbandi.hashfaster.R;
 import net.elbandi.hashfaster.WidgetConfigurationActivity;
+import net.elbandi.hashfaster.managers.PoolManager;
 import net.elbandi.hashfaster.managers.PrefManager;
 
 import android.app.AlarmManager;
@@ -31,7 +32,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 		for (int appWidgetId : appWidgetIds) {
 			Log.i(TAG, "deleting: " + appWidgetId);
 			setAlarm(context, appWidgetId, -1);
-			PrefManager.delWidgetPoolId(context, appWidgetId);
+			PrefManager.delWidgetPoolKey(context, appWidgetId);
 		}
 		super.onDeleted(context, appWidgetIds);
 	}
@@ -61,15 +62,15 @@ public class MyWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		Log.i(TAG, "onUpdate called");
 		for (int appWidgetId : appWidgetIds) {
-			int poolid = PrefManager.getWidgetPoolId(context, appWidgetId);
+			String pool = PrefManager.getWidgetPoolKey(context, appWidgetId);
 			int syncfreq = PrefManager.getWidgetSyncFrequency(context, appWidgetId) * 1000;
-			Log.i(TAG, "onUpdate " + appWidgetId + " : " + poolid);
-			if (poolid != -1) {
+			Log.i(TAG, "onUpdate " + appWidgetId + " : " + pool);
+			if (pool != null) {
 				setAlarm(context, appWidgetId, syncfreq);
 				RemoteViews widget = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 				TypedArray logos = context.getResources().obtainTypedArray(R.array.activity_logos);
 				try {
-					BitmapDrawable bd = (BitmapDrawable) logos.getDrawable(poolid);
+					BitmapDrawable bd = (BitmapDrawable) PoolManager.getLogo(pool);
 					Bitmap b = bd.getBitmap();
 					widget.setImageViewBitmap(R.id.widget_icon, b);
 				} finally {
