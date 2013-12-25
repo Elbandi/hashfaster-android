@@ -132,7 +132,10 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.activity_home, menu);
 		refreshMenuItem = menu.findItem(R.id.action_refresh);
-		refreshMenuItem.setEnabled(fragment.getPullToRefreshLayout().isEnabled());
+		if (fragment != null)
+			refreshMenuItem.setEnabled(fragment.getPullToRefreshLayout().isEnabled());
+		else
+			refreshMenuItem.setEnabled(false);
 		return true;
 	}
 
