@@ -57,7 +57,14 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 		if (scanResult != null) {
-			mAPIKey.setText(scanResult.getContents());
+			String result = scanResult.getContents();
+			if (result.startsWith("|")) {
+				try {
+					result = result.split("\\|")[2];
+				} catch (Exception e) {
+				}
+			}
+			mAPIKey.setText(result);
 		}
 	}
 }
