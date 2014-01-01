@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.network.R;
 import net.elbandi.hashfaster.managers.MinerManager;
 import net.elbandi.hashfaster.models.Worker;
 

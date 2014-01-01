@@ -1,6 +1,6 @@
 package net.elbandi.hashfaster.adapters;
 
-import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.network.R;
 import net.elbandi.hashfaster.fragments.DashboardFragment;
 import net.elbandi.hashfaster.fragments.WorkersListFragment;
 

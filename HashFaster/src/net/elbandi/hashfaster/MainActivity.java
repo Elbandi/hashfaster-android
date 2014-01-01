@@ -1,7 +1,7 @@
 package net.elbandi.hashfaster;
 
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
-import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.network.R;
 import net.elbandi.hashfaster.adapters.MainPagerAdapter;
 import net.elbandi.hashfaster.adapters.MinerListViewAdapter;
 import net.elbandi.hashfaster.adapters.NavigationListAdapter;

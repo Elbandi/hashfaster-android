@@ -1,6 +1,6 @@
 package net.elbandi.hashfaster.adapters;
 
-import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.network.R;
 import net.elbandi.hashfaster.managers.PoolManager;
 
 import android.content.Context;

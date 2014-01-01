@@ -1,6 +1,6 @@
 package net.elbandi.hashfaster.widget;
 
-import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.network.R;
 import net.elbandi.hashfaster.WidgetConfigurationActivity;
 import net.elbandi.hashfaster.managers.PoolManager;
 import net.elbandi.hashfaster.managers.PrefManager;

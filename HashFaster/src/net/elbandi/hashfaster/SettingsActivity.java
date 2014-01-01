@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 
-import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.network.R;
 import net.elbandi.hashfaster.controls.MyEditTextPreference;
 import net.elbandi.hashfaster.qr.IntentIntegrator;
 import net.elbandi.hashfaster.qr.IntentResult;

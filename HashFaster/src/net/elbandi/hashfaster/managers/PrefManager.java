@@ -1,6 +1,6 @@
 package net.elbandi.hashfaster.managers;
 
-import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.network.R;
 
 import android.content.Context;
 import android.content.SharedPreferences;

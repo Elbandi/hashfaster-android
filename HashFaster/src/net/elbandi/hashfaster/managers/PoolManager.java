@@ -1,6 +1,6 @@
 package net.elbandi.hashfaster.managers;
 
-import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.network.R;
 import net.elbandi.hashfaster.utils.StringUtils;
 
 import android.content.Context;

@@ -1,6 +1,6 @@
 package net.elbandi.hashfaster.managers;
 
-import net.elbandi.hashfaster.BuildConfig;
+import net.elbandi.hashfaster.network.BuildConfig;
 
 import org.acra.ACRA;
 

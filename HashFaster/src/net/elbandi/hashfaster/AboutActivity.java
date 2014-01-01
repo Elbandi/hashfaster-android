@@ -15,7 +15,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 import de.schildbach.wallet.litecoin.integration.android.LitecoinIntegration;
-import net.elbandi.hashfaster.R;
+import net.elbandi.hashfaster.network.R;
 import net.elbandi.hashfaster.utils.BitmapUtils;
 
 public class AboutActivity extends SherlockActivity {
