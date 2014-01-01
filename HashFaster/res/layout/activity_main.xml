@@ -1,205 +1,32 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <ScrollView
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/indicator"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/rl_refresh" >
+        android:layout_height="wrap_content" />
 
-        <LinearLayout
-            android:id="@+id/information_container"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin" >
-
-            <TextView
-                android:id="@+id/tv_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ERROR: Check Internet!"
-                android:textColor="#FF0000"
-                android:textSize="16sp"
-                android:visibility="gone" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Username" />
-
-            <TextView
-                android:id="@+id/tv_username"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Hashrate" />
-
-            <TextView
-                android:id="@+id/tv_total_hashrate"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Round Shares" />
-
-            <TextView
-                android:id="@+id/tv_round_shares"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dip"
-                android:background="#FF00FF00" />
-
-            <TextView
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="6dp"
-                android:paddingTop="10dp"
-                android:text="Pool Stats" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Hashrate" />
-
-            <TextView
-                android:id="@+id/tv_pool_total_hashrate"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pool Efficiency" />
-
-            <TextView
-                android:id="@+id/tv_pool_efficiency"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Current Active Workers" />
-
-            <TextView
-                android:id="@+id/tv_pool_active_workers"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Next Network Block" />
-
-            <TextView
-                android:id="@+id/tv_pool_nextnetworkblock"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Last Block Found" />
-
-            <TextView
-                android:id="@+id/tv_pool_lastblock"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Current Difficulty" />
-
-            <TextView
-                android:id="@+id/tv_pool_networkdiff"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Est. Avg. Time per Round" />
-
-            <TextView
-                android:id="@+id/tv_pool_esttime"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Est. Shares this Round" />
-
-            <TextView
-                android:id="@+id/tv_pool_estshares"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/ViewPagerHeaderSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time Since Last Block" />
-
-            <TextView
-                android:id="@+id/tv_pool_timesincelast"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            </LinearLayout>
-
-    </ScrollView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/rl_refresh"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="#CCCCCC"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:contentDescription="@string/last_update_icon"
             android:gravity="center"
             android:src="@drawable/clock" />
 
@@ -207,13 +34,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Last Update: " />
+            android:text="@string/last_update" />
 
         <TextView
             android:id="@+id/tv_last_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"/>
+            android:gravity="center" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

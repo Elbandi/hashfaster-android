@@ -14,20 +14,29 @@ import net.elbandi.hashfaster.models.Worker;
 
 public class MinerListViewAdapter extends BaseAdapter {
 	Context mContext;
+	private String pool;
 
 	public MinerListViewAdapter(Context context) {
 		this.mContext = context;
+		this.pool = "";
+	}
 
+	public String getPoolId() {
+		return pool;
+	}
+
+	public void setPoolId(String pool) {
+		this.pool = pool;
 	}
 
 	@Override
 	public int getCount() {
-		return MinerManager.getInstance().miner.workers.size();
+		return MinerManager.getInstance().getMiner(pool).getWorkers().size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return MinerManager.getInstance().miner.workers.get(position);
+		return MinerManager.getInstance().getMiner(pool).getWorkers().get(position);
 	}
 
 	@Override
@@ -38,7 +47,7 @@ public class MinerListViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		Worker worker = MinerManager.getInstance().miner.workers.get(position);
+		Worker worker = MinerManager.getInstance().getMiner(pool).getWorkers().get(position);
 
 		convertView = inflater.inflate(R.layout.sd_worker_item, null);
 		TextView mName = (TextView) convertView.findViewById(R.id.tv_worker_name);

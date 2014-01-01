@@ -20,7 +20,7 @@
             style="@style/ViewPagerHeaderSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Worker Name:" />
+            android:text="@string/worker_name" />
 
         <TextView
             android:id="@+id/tv_worker_name"
@@ -31,7 +31,7 @@
             style="@style/ViewPagerHeaderSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hashrate:" />
+            android:text="@string/worker_hashrate" />
 
         <TextView
             android:id="@+id/tv_worker_hashrate"

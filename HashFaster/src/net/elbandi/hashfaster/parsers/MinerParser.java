@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.elbandi.hashfaster.MainActivity;
+import net.elbandi.hashfaster.models.Balance;
 import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.models.Pool;
 import net.elbandi.hashfaster.models.Worker;
@@ -24,11 +25,13 @@ public class MinerParser {
 		Miner result = new Miner();
 		if (json.has("getuserstatus")) {
 			json = json.getJSONObject("getuserstatus");
+			if (json.has("data")) {
+				json = json.getJSONObject("data");
+			}
 			result.username = readJSONString(json, "username");
 			result.total_hashrate = readJSONInt(json, "hashrate");
 			result.round_shares = !json.isNull("shares") ? readJSONInt(json.getJSONObject("shares"), "valid") : 0;
 			result.round_shares_invalid = !json.isNull("shares") ? readJSONInt(json.getJSONObject("shares"), "invalid") : 0;
-			Log.v("HASHFASTER", "result.round_shares: " + result.round_shares);
 		}
 		return result;
 	}
@@ -37,28 +40,39 @@ public class MinerParser {
 		Pool pool = new Pool();
 		if (json.has("getpoolstatus")) {
 			json = json.getJSONObject("getpoolstatus");
-			pool.hashrate =  readJSONInt(json, "hashrate");
-			pool.workers =  readJSONInt(json, "workers");
-			pool.efficiency =  readJSONDouble(json, "efficiency");
-			pool.currentnetworkblock =  readJSONInt(json, "currentnetworkblock");
-			pool.nextnetworkblock =  readJSONInt(json, "nextnetworkblock");
-			pool.lastblock =  readJSONInt(json, "lastblock");
-			pool.networkdiff =  readJSONDouble(json, "networkdiff");
-			pool.esttime =  readJSONDouble(json, "esttime");
-			pool.estshares =  readJSONDouble(json, "estshares");
-			pool.timesincelast =  readJSONInt(json, "timesincelast");
+			if (json.has("data")) {
+				json = json.getJSONObject("data");
+			}
+			pool.hashrate = readJSONInt(json, "hashrate");
+			pool.workers = readJSONInt(json, "workers");
+			pool.efficiency = readJSONDouble(json, "efficiency");
+			pool.currentnetworkblock = readJSONInt(json, "currentnetworkblock");
+			pool.nextnetworkblock = readJSONInt(json, "nextnetworkblock");
+			pool.lastblock = readJSONInt(json, "lastblock");
+			pool.networkdiff = readJSONDouble(json, "networkdiff");
+			pool.esttime = readJSONDouble(json, "esttime");
+			pool.estshares = readJSONDouble(json, "estshares");
+			pool.timesincelast = readJSONInt(json, "timesincelast");
 		}
 		return pool;
 	}
-	
+
 	public static List<Worker> parseWorkers(JSONObject json) throws JSONException {
 		List<Worker> result = new ArrayList<Worker>();
 		if (json.has("getuserworkers")) {
-			JSONArray workers = json.getJSONArray("getuserworkers");
+			Object object = json.get("getuserworkers");
+			JSONArray workers = null;
+			if (object instanceof JSONObject) {
+				json = (JSONObject) object;
+				workers = json.getJSONArray("data");
+			} else if (object instanceof JSONArray) {
+				workers = (JSONArray) object;
+			} else {
+				throw new JSONException("Invalid API format");
+			}
 
 			for (int i = 0; i < workers.length(); i++) {
 				Worker worker = parseWorker(workers.getJSONObject(i));
-				Log.w("HASHFASTER", "Worker name added: " + worker.name);
 				result.add(worker);
 			}
 			Collections.reverse(result);
@@ -73,6 +87,17 @@ public class MinerParser {
 		result.monitor = readJSONInt(json, "monitor");
 		result.hashrate = readJSONInt(json, "hashrate");
 		result.difficulty = readJSONInt(json, "difficulty");
+		return result;
+	}
+
+	public static Balance parseBalance(JSONObject json) throws JSONException {
+		Balance result = new Balance();
+		if (json.has("getuserbalance")) {
+			json = json.getJSONObject("getuserbalance");
+			result.confirmed = readJSONDouble(json, "confirmed");
+			result.unconfirmed = readJSONDouble(json, "unconfirmed");
+			result.orphaned = readJSONDouble(json, "orphaned");
+		}
 		return result;
 	}
 

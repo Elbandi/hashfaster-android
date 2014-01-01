@@ -1,18 +1,15 @@
 package net.elbandi.hashfaster.managers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import net.elbandi.hashfaster.models.Miner;
 import net.elbandi.hashfaster.models.Pool;
-import net.elbandi.hashfaster.models.Worker;
-
-
 
 public class MinerManager {
-	private static MinerManager _instance;
+	private static MinerManager _instance = null;
 
-	public Miner miner = new Miner();
+	private HashMap<String, Miner> miner = new HashMap<String, Miner>();
+	private HashMap<String, Pool> pool = new HashMap<String, Pool>();
 
 	public static MinerManager getInstance() {
 		if (_instance == null)
@@ -20,33 +17,26 @@ public class MinerManager {
 
 		return _instance;
 	}
-	
-	public void setMiner(Miner miner) {
-		this.miner = miner;
+
+	public void setMiner(String key, Miner miner) {
+		this.miner.put(key, miner);
 	}
 
-	public Miner getMiner() {
-		return miner;
-	}
-
-	public void setWorkers(List<Worker> workers) {
-		this.miner.workers = workers;
-	}
-	
-	public void setPool(Pool pool) {
-		this.miner.pool = pool;
-	}
-	
-	public List<Worker> getWorkers()
-	{
-		ArrayList<Worker> result = new ArrayList<Worker>();
-		
-		for (Worker worker : miner.workers)
-		{
-			result.add(worker);
+	public Miner getMiner(String key) {
+		if (!miner.containsKey(key)) {
+			setMiner(key, new Miner());
 		}
-		
-		return result;
+		return miner.get(key);
 	}
-	
+
+	public void setPool(String key, Pool pool) {
+		this.pool.put(key, pool);
+	}
+
+	public Pool getPool(String key) {
+		if (!pool.containsKey(key)) {
+			setPool(key, new Pool());
+		}
+		return pool.get(key);
+	}
 }

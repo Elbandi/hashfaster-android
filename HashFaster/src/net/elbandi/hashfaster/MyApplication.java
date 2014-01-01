@@ -1,6 +1,10 @@
 package net.elbandi.hashfaster;
 
-import org.acra.ACRA;
+import net.elbandi.hashfaster.managers.PoolManager;
+import net.elbandi.hashfaster.managers.PrefManager;
+import net.elbandi.hashfaster.managers.ReportManager;
+import net.elbandi.hashfaster.R;
+
 import org.acra.ReportingInteractionMode;
 import org.acra.ReportField;
 import org.acra.annotation.ReportsCrashes;
@@ -23,6 +27,8 @@ public class MyApplication extends Application {
 	public void onCreate() {
 		// The following line triggers the initialization of ACRA
 		super.onCreate();
-		ACRA.init(this);
+		PoolManager.init(this); // initialize
+		PrefManager.CheckAPIKey(this);
+		ReportManager.init(this);
 	}
 }

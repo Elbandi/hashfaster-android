@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="syncFrequency">
+        <item name="10">Every 10 seconds</item>
+        <item name="60">Every minutes</item>
+        <item name="300">Every 5 minutes</item>
+        <item name="600">Every 10 minutes</item>
+        <item name="0">Never (Update maually)</item>
+    </string-array>
+    <string-array name="syncFrequencyValues">
+        <item name="10">10</item>
+        <item name="60">60</item>
+        <item name="300">300</item>
+        <item name="600">600</item>
+        <item name="0">0</item>
+    </string-array>
+
+    <array name="activity_titles">
+        <item>@string/title_activity_ltc</item>
+        <item>@string/title_activity_doge</item>
+        <item>@string/title_activity_cat</item>
+        <item>@string/title_activity_ftc</item>
+        <item>@string/title_activity_fst</item>
+        <item>@string/title_activity_wdc</item>
+        <item>@string/title_activity_tag</item>
+        <item>@string/title_activity_gld</item>
+        <item>@string/title_activity_anc</item>
+        <item>@string/title_activity_sbc</item>
+    </array>
+    <array name="activity_logos">
+        <item>@drawable/ic_launcher_ltc</item>
+        <item>@drawable/ic_launcher_doge</item>
+        <item>@drawable/ic_launcher_cat</item>
+        <item>@drawable/ic_launcher_ftc</item>
+        <item>@drawable/ic_launcher_fst</item>
+        <item>@drawable/ic_launcher_wdc</item>
+        <item>@drawable/ic_launcher_tag</item>
+        <item>@drawable/ic_launcher_gld</item>
+        <item>@drawable/ic_launcher_anc</item>
+        <item>@drawable/ic_launcher_sbc</item>
+    </array>
+    <array name="activity_subtitles">
+        <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
+        <item>@string/subtitle_activity_ltc</item>
+    </array>
+    <array name="pool_keys">
+        <item>ltc</item>
+        <item>doge</item>
+        <item>cat</item>
+        <item>ftc</item>
+        <item>fst</item>
+        <item>wdc</item>
+        <item>tag</item>
+        <item>gld</item>
+        <item>anc</item>
+        <item>sbc</item>
+    </array>
+    <array name="pool_urls">
+        <item>http://ltc.hashfaster.com</item>
+        <item>http://doge.hashfaster.com</item>
+        <item>http://cat.hashfaster.com</item>
+        <item>http://ftc.hashfaster.com</item>
+        <item>http://fst.hashfaster.com</item>
+        <item>http://wdc.hashfaster.com</item>
+        <item>http://tag.hashfaster.com</item>
+        <item>http://gld.hashfaster.com</item>
+        <item>http://anc.hashfaster.com</item>
+        <item>http://sbc.hashfaster.com</item>
+    </array>
+
+</resources>

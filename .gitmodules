@@ -1,6 +1,12 @@
 [submodule "Libraries/ActionBarSherlock"]
 	path = Libraries/ActionBarSherlock
 	url = https://github.com/JakeWharton/ActionBarSherlock.git
-[submodule "Libraries/SlidingMenu"]
-	path = Libraries/SlidingMenu
-	url = https://github.com/jfeinstein10/SlidingMenu.git
+[submodule "Libraries/ActionBar-PullToRefresh"]
+	path = Libraries/ActionBar-PullToRefresh
+	url = https://github.com/chrisbanes/ActionBar-PullToRefresh.git
+[submodule "Libraries/Android-ViewPagerIndicator"]
+	path = Libraries/Android-ViewPagerIndicator
+	url = https://github.com/JakeWharton/Android-ViewPagerIndicator.git
+[submodule "Libraries/SmoothProgressBar"]
+	path = Libraries/SmoothProgressBar
+	url = https://github.com/castorflex/SmoothProgressBar.git

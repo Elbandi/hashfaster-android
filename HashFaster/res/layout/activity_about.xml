@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical" >
@@ -18,26 +18,38 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quick and dirty ltc.hashfaster.com checker\n(based on Ninchuu&apos;s WeMineLTC checker)"
-            android:textSize="20dp" />
+            android:text="@string/about_title"
+            android:textSize="20dp"
+            tools:ignore="SpUsage" />
 
         <TextView
             android:id="@+id/tv_im_a_whore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Obligatory donation link:" />
+            android:text="@string/obligatory_donation_link" />
 
         <TextView
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LRJiKrH9hu1bCZjsi7sVTveLNqgqwbnKPt" />
+            android:text="LRJiKrH9hu1bCZjsi7sVTveLNqgqwbnKPt"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/request_coins_qr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:contentDescription="LRJiKrH9hu1bCZjsi7sVTveLNqgqwbnKPt"
+            android:keepScreenOn="true"
+            android:scaleType="fitCenter"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/btn_save_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Copy to Clipboard" />
+            android:text="@string/copy_to_clipboard" />
     </LinearLayout>
 
 </ScrollView>
