@@ -2,6 +2,7 @@ package net.elbandi.hashfaster;
 
 import net.elbandi.hashfaster.managers.PoolManager;
 import net.elbandi.hashfaster.managers.PrefManager;
+import net.elbandi.hashfaster.R;
 import net.elbandi.hashfaster.widget.MyWidgetProvider;
 
 import android.app.PendingIntent;

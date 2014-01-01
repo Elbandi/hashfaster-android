@@ -3,6 +3,7 @@ package net.elbandi.hashfaster;
 import net.elbandi.hashfaster.managers.PoolManager;
 import net.elbandi.hashfaster.managers.PrefManager;
 import net.elbandi.hashfaster.managers.ReportManager;
+import net.elbandi.hashfaster.R;
 
 import org.acra.ReportingInteractionMode;
 import org.acra.ReportField;
